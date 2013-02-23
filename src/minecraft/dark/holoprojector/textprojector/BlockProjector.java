@@ -33,11 +33,12 @@ public class BlockProjector extends BlockMachine
 	public boolean onSneakUseWrench(World world, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
 		int meta = world.getBlockMetadata(x, y, z);
+		/* CHANGES THE MODEL's FACING DIRECTION ** */
 		if (meta + 1 == 6)
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 0);
 		}
-		else if (meta + 1 == 12)
+		else if (meta + 1 >= 12)
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 6);
 		}
