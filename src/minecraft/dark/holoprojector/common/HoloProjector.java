@@ -75,7 +75,6 @@ public class HoloProjector extends DummyModContainer
     {
         FMLog.info("Loading...");
         proxy.init();
-        
         /* REGSITRY ENTITIES ***/
         
         FMLog.info("Loaded: " + TranslationHelper.loadLanguages(LANGUAGE_PATH, LANGUAGES_SUPPORTED) + " Languages."); 
