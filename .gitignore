@@ -9,6 +9,7 @@ CHANGELOG
 !/src/
 /src/minecraft/*
 !/src/minecraft/dark/
+!/src/minecraft/Elrath/
 !/resources/
 !/models/
 !info.txt

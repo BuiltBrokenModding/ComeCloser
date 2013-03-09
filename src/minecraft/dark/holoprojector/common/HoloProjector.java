@@ -45,7 +45,7 @@ public class HoloProjector extends DummyModContainer
     public final static int ITEM_ID_PREFIX = 13200;
     
     /* SIDE DEC ***/
-    @SidedProxy(clientSide = "dark.holoprojector.common.ClientProxy", serverSide = "dark.holoprojector.common.CommonProxy")
+    @SidedProxy(clientSide = "dark.holoprojector.client.ClientProxy", serverSide = "dark.holoprojector.common.CommonProxy")
     public static CommonProxy proxy;
     
     /* INSTANCE ***/
