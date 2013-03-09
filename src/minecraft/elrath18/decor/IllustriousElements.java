@@ -131,9 +131,7 @@ public class IllustriousElements
 
 		// Extra Block //
 		GameRegistry.addSmelting(Block.stone.blockID, new ItemStack(blockRandom, 1, 0), 0f);
-
-		GameRegistry.addRecipe(new ItemStack(blockRandom, 8, 1), new Object[] { "SSS", "SDS", "SSS", 'S', new ItemStack(Block.stone), 'D', new ItemStack(Item.ingotIron) });
-
+		GameRegistry.addRecipe(new ItemStack(blockRandom,1,3), new Object[] { "SS", "SS", 'S', new ItemStack(blockRandom,1,0) });
 		// // Item Recipes ////
 
 		// Refined Sand //
