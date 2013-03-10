@@ -26,13 +26,8 @@ runtime\bin\python\python_mcp runtime\reobfuscate.py %*
 
 ::ZIP-UP
 cd reobf\minecraft\
-"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "fluidmech"
-"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "hydraulic"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "elrath18"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "universalelectricity"
-cd ..\..\
-cd src\minecraft\
-"..\..\..\7za.exe" a "..\..\builds\%API_NAME%" "hydraulic"
-"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "fluidmech\resource"
 cd ..\..\
 
 echo Done building %FILE_NAME%
