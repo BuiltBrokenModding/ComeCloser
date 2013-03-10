@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockHalfSlab;
+import net.minecraft.block.BlockStep;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -86,6 +88,7 @@ public class IllustriousElements
 		blockRandom = new BlockRandomBlock(Integer.parseInt(config.getBlock(Configuration.CATEGORY_BLOCK, "ExtraBlocksBlockID", 1202).value));
 		blockGlowGlass = new BlockGlowGlass(Integer.parseInt(config.getBlock(Configuration.CATEGORY_BLOCK, "GlowingGlassBlockID", 1203).value));
 
+
 		itemRefinedSand = new ItemRefinedSand(Integer.parseInt(config.getItem(Configuration.CATEGORY_ITEM, "RefinedSandItemID", 30010).value));
 		itemGlowingSand = new ItemGlowRefinedSand(Integer.parseInt(config.getItem(Configuration.CATEGORY_ITEM, "GlowingRefinedSandItemID", 30020).value));
 		config.save();
@@ -130,8 +133,14 @@ public class IllustriousElements
 		}
 
 		// Extra Block //
+
+		GameRegistry.addShapelessRecipe(new ItemStack(blockRandom, 1, 6), new Object[] { new ItemStack(blockRandom, 1, 3), Block.cobblestone });
+		GameRegistry.addShapelessRecipe(new ItemStack(blockRandom, 1, 5), new Object[] { new ItemStack(blockRandom, 1, 3), Block.vine });
+		GameRegistry.addShapelessRecipe(new ItemStack(blockRandom, 1, 4), new Object[] { new ItemStack(blockRandom, 1, 3), new ItemStack(blockRandom, 1, 0) });
+		GameRegistry.addRecipe(new ItemStack(blockRandom, 1, 3), new Object[] { "SS", "SS", 'S', new ItemStack(blockRandom, 1, 0) });
+		GameRegistry.addShapelessRecipe(new ItemStack(blockRandom, 2, 2), new Object[] { Block.cobblestone, new ItemStack(blockRandom, 1, 0) });
 		GameRegistry.addSmelting(Block.stone.blockID, new ItemStack(blockRandom, 1, 0), 0f);
-		GameRegistry.addRecipe(new ItemStack(blockRandom,1,3), new Object[] { "SS", "SS", 'S', new ItemStack(blockRandom,1,0) });
+
 		// // Item Recipes ////
 
 		// Refined Sand //
