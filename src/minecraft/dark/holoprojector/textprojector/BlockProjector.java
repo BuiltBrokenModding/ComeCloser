@@ -4,13 +4,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import universalelectricity.prefab.BlockMachine;
+import universalelectricity.prefab.block.BlockAdvanced;
 
-public class BlockProjector extends BlockMachine
+public class BlockProjector extends BlockAdvanced
 {
 	public BlockProjector(int id)
 	{
-		super("HoloProjector", id, Material.iron, CreativeTabs.tabDecorations);
+		super(id, Material.iron);
+		this.setUnlocalizedName("HoloProjector");
+		this.setCreativeTab(CreativeTabs.tabDecorations);
 	}
 
 	@Override
@@ -20,11 +22,11 @@ public class BlockProjector extends BlockMachine
 		/* ROTATES THE MODEL ** */
 		if (meta >= 6)
 		{
-			world.setBlockMetadataWithNotify(x, y, z, meta - 6);
+			world.setBlockMetadataWithNotify(x, y, z, meta - 6, 3);
 		}
 		else
 		{
-			world.setBlockMetadataWithNotify(x, y, z, meta + 6);
+			world.setBlockMetadataWithNotify(x, y, z, meta + 6, 3);
 		}
 		return true;
 	}
@@ -36,15 +38,15 @@ public class BlockProjector extends BlockMachine
 		/* CHANGES THE MODEL's FACING DIRECTION ** */
 		if (meta + 1 == 6)
 		{
-			world.setBlockMetadataWithNotify(x, y, z, 0);
+			world.setBlockMetadataWithNotify(x, y, z, 0, 3);
 		}
 		else if (meta + 1 >= 12)
 		{
-			world.setBlockMetadataWithNotify(x, y, z, 6);
+			world.setBlockMetadataWithNotify(x, y, z, 6, 3);
 		}
 		else
 		{
-			world.setBlockMetadataWithNotify(x, y, z, meta + 1);
+			world.setBlockMetadataWithNotify(x, y, z, meta + 1, 3);
 		}
 		return true;
 	}

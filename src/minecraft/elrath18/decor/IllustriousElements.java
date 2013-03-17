@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockHalfSlab;
-import net.minecraft.block.BlockStep;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -23,17 +21,12 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import elrath18.decor.blocks.BlockColorGlass;
 import elrath18.decor.blocks.BlockColorSand;
-import elrath18.decor.blocks.BlockRandomBlock;
-import elrath18.decor.blocks.BlockGlowGlass;
-import elrath18.decor.blocks.BlockStainGlass;
-import elrath18.decor.items.ItemColorSand;
-import elrath18.decor.items.ItemRandomBlock;
-import elrath18.decor.items.ItemGlowGlass;
-import elrath18.decor.items.ItemGlowRefinedSand;
-import elrath18.decor.items.ItemRefinedSand;
-import elrath18.decor.items.ItemStainGlass;
+import elrath18.decor.blocks.BlockBasalt;
+import elrath18.decor.items.ItemBlockColored;
+import elrath18.decor.items.ItemColored;
+import elrath18.decor.items.ItemBlockBasalt;
 
 @Mod(modid = IllustriousElements.NAME, name = IllustriousElements.NAME, version = IllustriousElements.VERSION)
 @NetworkMod(channels = { IllustriousElements.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
@@ -64,7 +57,8 @@ public class IllustriousElements
 
 	public static Logger FMLog = Logger.getLogger(NAME);
 
-	public static final String[] dyeColorNames = new String[] { "White", "Red", "Green", "Brown", "Blue", "Purple", "Cyan", "Silver", "Gray", "Pink", "Lime", "Yellow", "LightBlue", "Magenta", "Orange", "Black" };
+	public static final String[] dyeColorNamesRev = new String[] { "Black", "Red", "Green", "Brown", "Blue", "Purple", "Cyan", "Silver", "Gray", "Pink", "Lime", "Yellow", "LightBlue", "Magenta", "Orange", "White" };
+	public static final String[] dyeColorNames = new String[] { "White", "Orange", "Magenta", "LightBlue", "Yellow", "Lime", "Pink", "Gray", "Gray", "Pink", "Purple", "Blue", "Brown", "Green", "Red", "Black" };
 
 	// Blocks //
 	public static Block blockStainGlass;
@@ -83,21 +77,20 @@ public class IllustriousElements
 
 		// // Configuration ////
 		config.load();
-		blockStainGlass = new BlockStainGlass(Integer.parseInt(config.getBlock(Configuration.CATEGORY_BLOCK, "StainedGlassBlockID", 1200).value));
-		blockColorSand = new BlockColorSand(Integer.parseInt(config.getBlock(Configuration.CATEGORY_BLOCK, "ColoredSandBlockID", 1201).value));
-		blockRandom = new BlockRandomBlock(Integer.parseInt(config.getBlock(Configuration.CATEGORY_BLOCK, "ExtraBlocksBlockID", 1202).value));
-		blockGlowGlass = new BlockGlowGlass(Integer.parseInt(config.getBlock(Configuration.CATEGORY_BLOCK, "GlowingGlassBlockID", 1203).value));
+		blockStainGlass = new BlockColorGlass(config.getBlock(Configuration.CATEGORY_BLOCK, "StainedGlassBlockID", 1200).getInt(), "StainedGlass");
+		blockColorSand = new BlockColorSand(config.getBlock(Configuration.CATEGORY_BLOCK, "ColoredSandBlockID", 1201).getInt());
+		blockRandom = new BlockBasalt(config.getBlock(Configuration.CATEGORY_BLOCK, "ExtraBlocksBlockID", 1202).getInt());
+		blockGlowGlass = new BlockColorGlass(config.getBlock(Configuration.CATEGORY_BLOCK, "GlowingGlassBlockID", 1203).getInt(), "GlowGlass").setLightOpacity(2).setLightValue(1);
 
-
-		itemRefinedSand = new ItemRefinedSand(Integer.parseInt(config.getItem(Configuration.CATEGORY_ITEM, "RefinedSandItemID", 30010).value));
-		itemGlowingSand = new ItemGlowRefinedSand(Integer.parseInt(config.getItem(Configuration.CATEGORY_ITEM, "GlowingRefinedSandItemID", 30020).value));
+		itemRefinedSand = new ItemColored(config.getItem(Configuration.CATEGORY_ITEM, "RefinedSandItemID", 30010).getInt(), "RefinedSand");
+		itemGlowingSand = new ItemColored(config.getItem(Configuration.CATEGORY_ITEM, "GlowingRefinedSandItemID", 30020).getInt(), "GlowRefinedSand");
 		config.save();
 
 		// // Registration ////
-		GameRegistry.registerBlock(blockStainGlass, ItemStainGlass.class, "stainGlass");
-		GameRegistry.registerBlock(blockColorSand, ItemColorSand.class, "stainSand");
-		GameRegistry.registerBlock(blockRandom, ItemRandomBlock.class, "extraBlocks");
-		GameRegistry.registerBlock(blockGlowGlass, ItemGlowGlass.class, "stainGlowGlass");
+		GameRegistry.registerBlock(blockStainGlass, ItemBlockColored.class, "stainGlass");
+		GameRegistry.registerBlock(blockColorSand, ItemBlockColored.class, "stainSand");
+		GameRegistry.registerBlock(blockRandom, ItemBlockBasalt.class, "extraBlocks");
+		GameRegistry.registerBlock(blockGlowGlass, ItemBlockColored.class, "stainGlowGlass");
 	}
 
 	@Init

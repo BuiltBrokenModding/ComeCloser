@@ -11,21 +11,19 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import elrath18.decor.IllustriousElements;
 
-public class BlockStainGlass extends Block
+public class BlockColorGlass extends BlockColored
 {
 
-	public BlockStainGlass(int par1)
+	public BlockColorGlass(int id, String name)
 	{
-		super(par1, Material.glass);
+		super(name, id, Material.glass);
 		this.setCreativeTab(CreativeTabs.tabDecorations);
 		this.setHardness(.5f);
 		this.setResistance(.5f);
-		this.setBlockName("StainedGlass");
 		this.setStepSound(soundGlassFootstep);
-		this.setTextureFile(IllustriousElements.BLOCK_TEXTURE_FILE);
-		this.setLightOpacity(2);
 	}
 
+	@Override
 	public int quantityDropped(Random par1Random)
 	{
 		return 0;
@@ -37,37 +35,21 @@ public class BlockStainGlass extends Block
 		return 1;
 	}
 
+	@Override
 	public boolean isOpaqueCube()
 	{
 		return false;
 	}
 
+	@Override
 	public boolean renderAsNormalBlock()
 	{
 		return false;
 	}
 
+	@Override
 	protected boolean canSilkHarvest()
 	{
 		return true;
-	}
-
-	public int getBlockTextureFromSideAndMetadata(int side, int meta)
-	{
-		return this.blockIndexInTexture + meta;
-	}
-
-	public int damageDropped(int par1)
-	{
-		return par1;
-	}
-
-	@Override
-	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
-	{
-		for (int i = 0; i < IllustriousElements.dyeColorNames.length; i++)
-		{
-			par3List.add(new ItemStack(this.blockID, 1, i));
-		}
 	}
 }
