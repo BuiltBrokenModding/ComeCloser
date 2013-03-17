@@ -32,7 +32,7 @@ import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = "ComeCloser ", name = "Come Closer ", version = "N1")
+@Mod(modid = "ComeCloser ", name = "ComeCloser ", version = "0.1.3")
 @NetworkMod(channels = { ComeCloser.CHANNEL }, clientSideRequired = true, serverSideRequired = false, connectionHandler = ComeCloser.class, packetHandler = ComeCloser.class)
 public class ComeCloser extends DummyModContainer implements IPacketHandler, IConnectionHandler
 {
@@ -40,8 +40,8 @@ public class ComeCloser extends DummyModContainer implements IPacketHandler, ICo
     public static final String CHANNEL = "ComeCloser";
     // Variables //
     static Configuration config = new Configuration(new File(cpw.mods.fml.common.Loader.instance().getConfigDir(), "ComeCloser.cfg"));
-    public static float range2 = 64f;
-    public static float range = 32f;
+    public static float standingRange = 64f;
+    public static float sneakRange = 32f;
 
     @PreInit
     public void preInit(FMLPreInitializationEvent event)
@@ -50,8 +50,8 @@ public class ComeCloser extends DummyModContainer implements IPacketHandler, ICo
         if (event.getSide() == Side.SERVER)
         {
             config.load();
-            range = Integer.parseInt(config.get(Configuration.CATEGORY_GENERAL, "SneakRange", 32).value);
-            range2 = Integer.parseInt(config.get(Configuration.CATEGORY_GENERAL, "NormalRange", 64).value);
+            sneakRange = Integer.parseInt(config.get(Configuration.CATEGORY_GENERAL, "SneakRange", 32).value);
+            standingRange = Integer.parseInt(config.get(Configuration.CATEGORY_GENERAL, "NormalRange", 64).value);
             config.save();
         }
 
@@ -66,8 +66,8 @@ public class ComeCloser extends DummyModContainer implements IPacketHandler, ICo
 
     public void changeRangeServer(float high, float low)
     {
-        this.range = low;
-        this.range2 = high;
+        this.sneakRange = low;
+        this.standingRange = high;
         this.sendPacket();
     }
 
@@ -77,9 +77,9 @@ public class ComeCloser extends DummyModContainer implements IPacketHandler, ICo
         DataOutputStream data = new DataOutputStream(bytes);
         try
         {
-            data.writeFloat(range);
+            data.writeFloat(sneakRange);
 
-            data.writeFloat(range2);
+            data.writeFloat(standingRange);
 
             Packet250CustomPayload packet = new Packet250CustomPayload();
             packet.channel = CHANNEL;
@@ -103,7 +103,7 @@ public class ComeCloser extends DummyModContainer implements IPacketHandler, ICo
         EntityPlayer player = netHandler.getPlayer();
         if (player != null && !player.worldObj.isRemote)
         {
-            player.sendChatToPlayer("ComeCloser: TagRange:" + range + "|" + range2);
+            player.sendChatToPlayer("ComeCloser: TagRange:" + sneakRange + "|" + standingRange);
         }
         sendPacket();
     }
@@ -152,7 +152,7 @@ public class ComeCloser extends DummyModContainer implements IPacketHandler, ICo
 
             float f = data.readFloat();
             float f2 = data.readFloat();
-            this.changeRangeClient(f, f2);
+            this.changeRangeClient(f2, f);
             if (player instanceof EntityPlayer)
             {
                 World world = ((EntityPlayer) player).worldObj;
