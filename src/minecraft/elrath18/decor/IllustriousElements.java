@@ -40,7 +40,7 @@ import elrath18.decor.items.ItemStainGlass;
 public class IllustriousElements
 {
 	// TODO Change in Version Release
-	public static final String VERSION = "0.1.2";
+	public static final String VERSION = "0.2.1";
 
 	// Constants
 	public static final String NAME = "Illustrious_Elements";
