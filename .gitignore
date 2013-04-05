@@ -10,7 +10,7 @@ CHANGELOG
 /src/minecraft/*
 !/src/minecraft/dark/
 !/src/minecraft/elrath18/
-!/resources/
+!/resources/mods/
 !/models/
 !info.txt
 !publish.bat
