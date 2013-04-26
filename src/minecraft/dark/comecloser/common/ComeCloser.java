@@ -31,7 +31,7 @@ import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = "ComeCloser ", name = "ComeCloser ", version = "0.1.3")
+@Mod(modid = "ComeCloser ", name = "ComeCloser ", version = "0.1.6")
 @NetworkMod(channels = { ComeCloser.CHANNEL }, clientSideRequired = true, serverSideRequired = false, connectionHandler = ComeCloser.class, packetHandler = ComeCloser.class)
 public class ComeCloser extends DummyModContainer implements IPacketHandler, IConnectionHandler
 {

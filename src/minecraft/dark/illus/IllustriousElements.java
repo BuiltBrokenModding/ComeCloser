@@ -9,11 +9,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.common.Configuration;
-import universalelectricity.prefab.TranslationHelper;
-import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PostInit;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.SidedProxy;
@@ -29,17 +28,21 @@ import dark.illus.blocks.colored.ItemBlockBasalt;
 import dark.illus.blocks.colored.ItemBlockColored;
 import dark.illus.items.ItemColored;
 
-@Mod(modid = IllustriousElements.NAME, name = IllustriousElements.NAME, version = IllustriousElements.VERSION)
-@NetworkMod(channels = { IllustriousElements.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
+@Mod(modid = IllustriousElements.MOD_ID, name = IllustriousElements.MOD_NAME, version = IllustriousElements.VERSION)
+@NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class IllustriousElements
 {
-	// TODO Change in Version Release
-	public static final String VERSION = "0.2.1";
+	// @Mod Prerequisites
+	public static final String MAJOR_VERSION = "@MAJOR@";
+	public static final String MINOR_VERSION = "@MINOR@";
+	public static final String REVIS_VERSION = "@REVIS@";
+	public static final String BUILD_VERSION = "@BUILD@";
 
-	// Constants
-	public static final String NAME = "Illustrious_Elements";
-	public static final String CHANNEL = "IllustElem";
-
+	// @Mod
+	public static final String MOD_ID = "Illustrious_Elements";
+	public static final String MOD_NAME = "Illustrious_Elements";
+	public static final String VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + REVIS_VERSION + "." + BUILD_VERSION;
+	@Instance(IllustriousElements.MOD_ID)
 	public static IllustriousElements Instance;
 
 	@SidedProxy(clientSide = "dark.illus.ClientProxy", serverSide = "dark.illus.CommonProxy")
@@ -61,8 +64,8 @@ public class IllustriousElements
 
 	static Configuration config = new Configuration(new File(Loader.instance().getConfigDir(), "IllustriousElements.cfg"));
 
-	public static Logger FMLog = Logger.getLogger(NAME);
-	
+	public static Logger FMLog = Logger.getLogger(MOD_NAME);
+
 	public static final String[] dyeColorNames = new String[] { "Black", "Red", "Green", "Brown", "Blue", "Purple", "Cyan", "Silver", "Gray", "Pink", "Lime", "Yellow", "LightBlue", "Magenta", "Orange", "White" };
 	public static final Color[] dyeColors = new Color[] { Color.black, Color.red, Color.green, new Color(139, 69, 19), Color.BLUE, new Color(75, 0, 130), Color.cyan, new Color(192, 192, 192), Color.gray, Color.pink, new Color(0, 255, 0), Color.yellow, new Color(135, 206, 250), Color.magenta, Color.orange, Color.white };
 	// Blocks //
