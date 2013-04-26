@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="Greater%20Protection" default="build">
+<project name="Dark's%20Random%20Box" default="build">
 
 	<property file="build.properties" />
 	<property environment="env" />
