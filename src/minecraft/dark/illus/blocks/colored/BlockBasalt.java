@@ -45,16 +45,24 @@ public class BlockBasalt extends Block
 	{
 		return true;
 	}
-
+	public Icon getIcon(int side, int meta)
+	{
+		if(meta < this.icons.length)
+		{
+			return this.icons[meta];
+		}
+		return blockIcon;
+		
+	}
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void func_94332_a(IconRegister iconReg)
+	public void registerIcons(IconRegister iconReg)
 	{
 		this.icons = new Icon[16];
 
 		for (int i = 0; i < this.blockNames.length; ++i)
 		{
-			this.icons[i] = iconReg.func_94245_a(this.blockNames[i]);
+			this.icons[i] = iconReg.registerIcon(IllustriousElements.TEXTURE_NAME_PREFIX +this.blockNames[i]);
 		}
 	}
 

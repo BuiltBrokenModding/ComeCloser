@@ -2,9 +2,6 @@ package dark.illus.blocks.colored;
 
 import java.util.List;
 
-
-
-import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -23,7 +20,7 @@ public class ItemBlockBasalt extends ItemBlock
 	{
 		int meta = itemstack.getItemDamage();
 
-		return BlockBasalt.blockNames[~meta & (BlockBasalt.blockNames.length-1)];
+		return "tile." + BlockBasalt.blockNames[meta];
 	}
 
 	@Override

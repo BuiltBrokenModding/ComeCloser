@@ -30,7 +30,7 @@ public class BlockColored extends Block
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public Icon getBlockTextureFromSideAndMetadata(int side, int meta)
+	public Icon getIcon(int side, int meta)
 	{
 		if (colorized)
 		{
@@ -57,11 +57,11 @@ public class BlockColored extends Block
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void func_94332_a(IconRegister iconReg)
+	public void registerIcons(IconRegister iconReg)
 	{
 		if (colorized)
 		{
-			this.singleIcon = iconReg.func_94245_a(IllustriousElements.TEXTURE_NAME_PREFIX + this.getUnlocalizedName().replace("tile.",""));
+			this.singleIcon = iconReg.registerIcon(IllustriousElements.TEXTURE_NAME_PREFIX + this.getUnlocalizedName().replace("tile.",""));
 		}
 		else
 		{
@@ -69,7 +69,7 @@ public class BlockColored extends Block
 
 			for (int i = 0; i < this.icons.length; ++i)
 			{
-				this.icons[i] = iconReg.func_94245_a(IllustriousElements.TEXTURE_NAME_PREFIX +IllustriousElements.dyeColorNames[~i & 15] + this.getUnlocalizedName().replace("tile.",""));
+				this.icons[i] = iconReg.registerIcon(IllustriousElements.TEXTURE_NAME_PREFIX +IllustriousElements.dyeColorNames[~i & 15] + this.getUnlocalizedName().replace("tile.",""));
 			}
 		}
 	}

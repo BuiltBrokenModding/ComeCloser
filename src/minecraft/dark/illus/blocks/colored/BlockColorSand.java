@@ -56,7 +56,7 @@ public class BlockColorSand extends BlockColored
 			}
 			else
 			{
-				par1World.setBlockAndMetadataWithNotify(par2, par3, par4, 0, 0, 3);
+				par1World.setBlock(par2, par3, par4, 0);
 
 				while (canFallBelow(par1World, par2, par3 - 1, par4) && par3 > 0)
 				{
@@ -65,7 +65,7 @@ public class BlockColorSand extends BlockColored
 
 				if (par3 > 0)
 				{
-					par1World.setBlockAndMetadataWithNotify(par2, par3, par4, this.blockID, meta, 3);
+					par1World.setBlock(par2, par3, par4, this.blockID, meta, 3);
 				}
 			}
 		}

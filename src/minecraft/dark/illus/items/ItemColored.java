@@ -32,13 +32,14 @@ public class ItemColored extends Item
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void func_94581_a(IconRegister par1IconRegister)
+	@Override
+	public void registerIcons(IconRegister par1IconRegister)
 	{
 		this.icons = new Icon[IllustriousElements.dyeColorNames.length];
 
 		for (int i = 0; i < IllustriousElements.dyeColorNames.length; ++i)
 		{
-			this.icons[i] = par1IconRegister.func_94245_a(IllustriousElements.dyeColorNames[i] + this.getUnlocalizedName().replace("item.",""));
+			this.icons[i] = par1IconRegister.registerIcon(IllustriousElements.dyeColorNames[i] + this.getUnlocalizedName().replace("item.",""));
 		}
 	}
 
