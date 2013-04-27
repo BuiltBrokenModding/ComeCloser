@@ -22,6 +22,7 @@ import com.google.common.io.ByteStreams;
 import cpw.mods.fml.common.DummyModContainer;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.IConnectionHandler;
@@ -35,10 +36,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 @NetworkMod(channels = { ComeCloser.CHANNEL }, clientSideRequired = true, serverSideRequired = false, connectionHandler = ComeCloser.class, packetHandler = ComeCloser.class)
 public class ComeCloser extends DummyModContainer implements IPacketHandler, IConnectionHandler
 {
+	@Instance("ComeCloser")
 	public static ComeCloser Instance;
+	
 	public static final String CHANNEL = "ComeCloser";
 	// Variables //
 	static Configuration config = new Configuration(new File(cpw.mods.fml.common.Loader.instance().getConfigDir(), "ComeCloser.cfg"));
+	
 	public static float standingRange = 64f;
 	public static float sneakRange = 32f;
 
@@ -65,8 +69,8 @@ public class ComeCloser extends DummyModContainer implements IPacketHandler, ICo
 
 	public void changeRangeServer(float high, float low)
 	{
-		this.sneakRange = low;
-		this.standingRange = high;
+		ComeCloser.sneakRange = low;
+		ComeCloser.standingRange = high;
 		this.sendPacket();
 	}
 

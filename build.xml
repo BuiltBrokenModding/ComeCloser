@@ -79,8 +79,6 @@
         <jar destfile="output/${file.Cjar}">
 			<fileset dir="contents/comecloser" />
 		</jar>
-		<scp file="output/${file.Cjar}" todir=  "DarkGuardsman:intaves@frs.sourceforge.net:projects/comeclosermcmod/files/Downloads/" />
-        <scp file="output/${file.EEjar}" todir="DarkGuardsman:intaves@frs.sourceforge.net:https://sourceforge.net/projects/guardsmanmcm/files/IllustriousElements/" />
     
 		<echo file="${env.JENKINS_HOME}/jobs/${env.JOB_NAME}/info.txt" append="true" >
 		@ ${env.BUILD_NUMBER} ${version.minecraft} ${file.EEjar}</echo>

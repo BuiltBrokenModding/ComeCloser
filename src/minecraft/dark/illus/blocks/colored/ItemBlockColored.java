@@ -1,9 +1,9 @@
 package dark.illus.blocks.colored;
 
-import dark.illus.IllustriousElements;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import dark.illus.IllustriousElements;
 
 public class ItemBlockColored extends ItemBlock
 {
