@@ -43,7 +43,7 @@
 		
 		<mkdir dir="contents" />
         <mkdir dir="contents/comecloser" />
-        <mkdir dir="contents/ilus" />
+        <mkdir dir="contents/illus" />
 		<mkdir dir="build" />
 		
 		<replace dir="${dir.mcp}/src/minecraft" token="@MAJOR@" value="${version.mod.major}" />
@@ -65,8 +65,8 @@
 			<arg line="reobfuscate_srg.sh" />
 		</exec>
 
-		<copy todir="contents/ilus">
-			<fileset dir="${dir.mcp}/reobf/minecraft/dark/ilus/" excludes=".git/**">
+		<copy todir="contents/illus">
+			<fileset dir="${dir.mcp}/reobf/minecraft/dark/illus/" excludes=".git/**">
 				<exclude name="**/BCLoader.class"/>
                 <exclude name="**/comecloser/"/>
                 <exclude name="**/holoprojector/"/>
