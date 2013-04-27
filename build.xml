@@ -53,7 +53,7 @@
 		</exec>
 
 		<copy todir="contents/illus">
-			<fileset dir="${dir.mcp}/reobf/minecraft/dark/illus/" excludes=".git/**">
+			<fileset dir="${dir.mcp}/reobf/minecraft/dark/illus" excludes=".git/**">
 				<exclude name="**/BCLoader.class"/>
                 <exclude name="**/comecloser/"/>
                 <exclude name="**/holoprojector/"/>
@@ -68,7 +68,7 @@
 		</copy>
         
         <copy todir="contents/comecloser">
-			<fileset dir="${dir.mcp}/reobf/minecraft/dark/comecloser/" excludes=".git/**">
+			<fileset dir="${dir.mcp}/reobf/minecraft/dark/comecloser" excludes=".git/**">
 			</fileset>
 		</copy>
 
