@@ -20,9 +20,6 @@
         
         <mkdir dir="download" />
         
-        <get src="https://github.com/DarkGuardsman/Dark-Library/archive/master.zip" dest="download" usetimestamp="True"/>
-        <unzip dest="download/unzip/.." src="download/master.zip"/>
-        
 		<copy todir="${dir.mcp}/src/minecraft">
 			
 			<fileset dir="${dir.development}src">
