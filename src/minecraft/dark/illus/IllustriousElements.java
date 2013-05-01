@@ -71,7 +71,7 @@ public class IllustriousElements
 	// Blocks //
 	public static Block blockStainGlass;
 	public static Block blockColorSand;
-	public static Block blockRandom;
+	public static Block blockBasalt;
 	public static Block blockGlowGlass;
 
 	// Item //
@@ -87,7 +87,7 @@ public class IllustriousElements
 		config.load();
 		blockStainGlass = new BlockColorGlass(config.getBlock(Configuration.CATEGORY_BLOCK, "StainedGlassBlockID", 1200).getInt(), "StainedGlass");
 		blockColorSand = new BlockColorSand(config.getBlock(Configuration.CATEGORY_BLOCK, "ColoredSandBlockID", 1201).getInt());
-		blockRandom = new BlockBasalt(config.getBlock(Configuration.CATEGORY_BLOCK, "ExtraBlocksBlockID", 1202).getInt());
+		blockBasalt = new BlockBasalt(config.getBlock(Configuration.CATEGORY_BLOCK, "ExtraBlocksBlockID", 1202).getInt());
 		blockGlowGlass = new BlockColorGlass(config.getBlock(Configuration.CATEGORY_BLOCK, "GlowingGlassBlockID", 1203).getInt(), "GlowGlass").setLightOpacity(2).setLightValue(1);
 
 		itemRefinedSand = new ItemColored(config.getItem(Configuration.CATEGORY_ITEM, "RefinedSandItemID", 30010).getInt(), "RefinedSand");
@@ -97,7 +97,7 @@ public class IllustriousElements
 		// // Registration ////
 		GameRegistry.registerBlock(blockStainGlass, ItemBlockColored.class, "stainGlass");
 		GameRegistry.registerBlock(blockColorSand, ItemBlockColored.class, "stainSand");
-		GameRegistry.registerBlock(blockRandom, ItemBlockBasalt.class, "extraBlocks");
+		GameRegistry.registerBlock(blockBasalt, ItemBlockBasalt.class, "extraBlocks");
 		GameRegistry.registerBlock(blockGlowGlass, ItemBlockColored.class, "stainGlowGlass");
 	}
 
@@ -135,12 +135,14 @@ public class IllustriousElements
 
 		// Extra Block //
 
-		GameRegistry.addShapelessRecipe(new ItemStack(blockRandom, 1, 6), new Object[] { new ItemStack(blockRandom, 1, 3), Block.cobblestone });
-		GameRegistry.addShapelessRecipe(new ItemStack(blockRandom, 1, 5), new Object[] { new ItemStack(blockRandom, 1, 3), Block.vine });
-		GameRegistry.addShapelessRecipe(new ItemStack(blockRandom, 1, 4), new Object[] { new ItemStack(blockRandom, 1, 3), new ItemStack(blockRandom, 1, 0) });
-		GameRegistry.addRecipe(new ItemStack(blockRandom, 1, 3), new Object[] { "SS", "SS", 'S', new ItemStack(blockRandom, 1, 0) });
-		GameRegistry.addShapelessRecipe(new ItemStack(blockRandom, 2, 2), new Object[] { Block.cobblestone, new ItemStack(blockRandom, 1, 0) });
-		GameRegistry.addSmelting(Block.stone.blockID, new ItemStack(blockRandom, 1, 0), 0f);
+		GameRegistry.addShapelessRecipe(new ItemStack(blockBasalt, 1, BlockBasalt.block.COBBLE.ordinal()), new Object[] { new ItemStack(blockBasalt, 1, BlockBasalt.block.STONE.ordinal())});
+		GameRegistry.addShapelessRecipe(new ItemStack(blockBasalt, 1, BlockBasalt.block.MOSSY.ordinal()), new Object[] { new ItemStack(blockBasalt, 1, BlockBasalt.block.BRICK.ordinal()), Block.vine });
+		GameRegistry.addShapelessRecipe(new ItemStack(blockBasalt, 2, BlockBasalt.block.CRACKED.ordinal()), new Object[] { new ItemStack(blockBasalt, 1, BlockBasalt.block.BRICK.ordinal()), new ItemStack(blockBasalt, 1, BlockBasalt.block.BRICK.ordinal()) });
+		GameRegistry.addRecipe(new ItemStack(blockBasalt, 4, BlockBasalt.block.BRICK.ordinal()), new Object[] { "SS", "SS", 'S', new ItemStack(blockBasalt, 1, BlockBasalt.block.STONE.ordinal()) });
+		GameRegistry.addRecipe(new ItemStack(blockBasalt, 8, BlockBasalt.block.CHISILED.ordinal()), new Object[] { "SSS","S S", "SSS", 'S', new ItemStack(blockBasalt, 1, BlockBasalt.block.STONE.ordinal()) });
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(blockBasalt, 2, BlockBasalt.block.COBBLE.ordinal()), new Object[] { Block.cobblestone, new ItemStack(blockBasalt, 1, BlockBasalt.block.STONE.ordinal()) });
+		GameRegistry.addSmelting(Block.stone.blockID, new ItemStack(blockBasalt, 1, BlockBasalt.block.STONE.ordinal()), 1f);
 
 		// // Item Recipes ////
 

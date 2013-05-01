@@ -14,7 +14,19 @@ import dark.illus.IllustriousElements;
 public class BlockBasalt extends Block
 {
 	private Icon[] icons;
-	public final static String[] blockNames = new String[] { "basalt","basaltcobble","basaltbrick","basaltchiseled","basaltcracked","basaltmossy" };
+	public final static String[] blockNames = new String[] { "basalt", "basaltcobble", "basaltbrick", "basaltchiseled", "basaltcracked", "basaltmossy" };
+
+	public enum block
+	{
+		STONE("basalt"), COBBLE("basaltcobble"), BRICK("basaltbrick"), CHISILED("basaltchiseled"), CRACKED("basaltcracked"), MOSSY("basaltmossy");
+		public String name;
+
+		private block(String name)
+		{
+			this.name = name;
+		}
+
+	}
 
 	public BlockBasalt(int par1)
 	{
@@ -44,15 +56,17 @@ public class BlockBasalt extends Block
 	{
 		return true;
 	}
+
 	public Icon getIcon(int side, int meta)
 	{
-		if(meta < this.icons.length)
+		if (meta < this.icons.length)
 		{
 			return this.icons[meta];
 		}
 		return blockIcon;
-		
+
 	}
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerIcons(IconRegister iconReg)
@@ -61,7 +75,7 @@ public class BlockBasalt extends Block
 
 		for (int i = 0; i < this.blockNames.length; ++i)
 		{
-			this.icons[i] = iconReg.registerIcon(IllustriousElements.TEXTURE_NAME_PREFIX +this.blockNames[i]);
+			this.icons[i] = iconReg.registerIcon(IllustriousElements.TEXTURE_NAME_PREFIX + this.blockNames[i]);
 		}
 	}
 
