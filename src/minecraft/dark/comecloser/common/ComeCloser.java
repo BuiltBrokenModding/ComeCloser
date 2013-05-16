@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 
+import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
@@ -32,7 +33,7 @@ import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = "ComeCloser ", name = "ComeCloser ", version = "0.1.6")
+@Mod(modid = "ComeCloser ", name = "Come Closer", version = "0.2.3")
 @NetworkMod(channels = { ComeCloser.CHANNEL }, clientSideRequired = true, serverSideRequired = false, connectionHandler = ComeCloser.class, packetHandler = ComeCloser.class)
 public class ComeCloser extends DummyModContainer implements IPacketHandler, IConnectionHandler
 {
@@ -63,8 +64,8 @@ public class ComeCloser extends DummyModContainer implements IPacketHandler, ICo
 	@SideOnly(Side.CLIENT)
 	public void changeRangeClient(float high, float low)
 	{
-		RenderPlayer.NAME_TAG_RANGE = high;
-		RenderPlayer.NAME_TAG_RANGE_SNEAK = low;
+		RenderLiving.NAME_TAG_RANGE = high;
+		RenderLiving.NAME_TAG_RANGE_SNEAK = low;
 	}
 
 	public void changeRangeServer(float high, float low)
