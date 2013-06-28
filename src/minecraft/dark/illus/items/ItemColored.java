@@ -18,7 +18,6 @@ public class ItemColored extends Item
 	private Icon theIcon;
 
 	@SideOnly(Side.CLIENT)
-
 	public ItemColored(int par1, String name)
 	{
 		super(par1);
@@ -28,29 +27,30 @@ public class ItemColored extends Item
 		this.setUnlocalizedName(name);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack par1ItemStack, int par2)
 	{
 		return IllustriousElements.dyeColors[par1ItemStack.getItemDamage() % 16].getRGB();
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean requiresMultipleRenderPasses()
 	{
 		return true;
 	}
 
-	/* @SideOnly(Side.CLIENT)	
-	public Icon getIconFromDamageForRenderPass(int par1, int par2)
-	{
-		return par2 > 0 ? this.theIcon : super.getIconFromDamageForRenderPass(par1, par2);
-	} */
+	/*
+	 * @SideOnly(Side.CLIENT) public Icon getIconFromDamageForRenderPass(int par1, int par2) {
+	 * return par2 > 0 ? this.theIcon : super.getIconFromDamageForRenderPass(par1, par2); }
+	 */
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerIcons(IconRegister par1IconRegister)
 	{
-		this.itemIcon = par1IconRegister.registerIcon(IllustriousElements.TEXTURE_NAME_PREFIX+"dust");
+		this.itemIcon = par1IconRegister.registerIcon(IllustriousElements.TEXTURE_NAME_PREFIX + "dust");
 		this.theIcon = par1IconRegister.registerIcon("glowingPowder_overlay");
 	}
 

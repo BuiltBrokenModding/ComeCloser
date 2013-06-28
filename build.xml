@@ -85,7 +85,7 @@
     
 		<echo file="${env.JENKINS_HOME}/jobs/${env.JOB_NAME}/info.txt" append="true" >
 		@ ${env.BUILD_NUMBER} ${version.minecraft} ${file.EEjar}</echo>
-		
+		<scp todir="${username}:${password}@shell.sourceforge.net:/home/users/U/US/${USERNAME}/comeclosermcmod/files/Downloads/1.5.2/" file ="output/${file.Cjar}">
 		<copy todir="output" file="build.properties" />
 	</target>
 </project>
