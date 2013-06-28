@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 
 import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.NetLoginHandler;
@@ -39,11 +38,11 @@ public class ComeCloser extends DummyModContainer implements IPacketHandler, ICo
 {
 	@Instance("ComeCloser")
 	public static ComeCloser Instance;
-	
+
 	public static final String CHANNEL = "ComeCloser";
 	// Variables //
 	static Configuration config = new Configuration(new File(cpw.mods.fml.common.Loader.instance().getConfigDir(), "ComeCloser.cfg"));
-	
+
 	public static float standingRange = 64f;
 	public static float sneakRange = 32f;
 

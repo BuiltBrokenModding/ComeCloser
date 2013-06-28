@@ -19,7 +19,7 @@ public class ItemBlockColored extends ItemBlock
 	{
 		return par1;
 	}
-	
+
 	@Override
 	public String getUnlocalizedName(ItemStack par1ItemStack)
 	{

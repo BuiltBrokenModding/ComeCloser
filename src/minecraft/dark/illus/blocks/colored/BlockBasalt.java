@@ -18,7 +18,12 @@ public class BlockBasalt extends Block
 
 	public enum block
 	{
-		STONE("basalt"), COBBLE("basaltcobble"), BRICK("basaltbrick"), CHISILED("basaltchiseled"), CRACKED("basaltcracked"), MOSSY("basaltmossy");
+		STONE("basalt"),
+		COBBLE("basaltcobble"),
+		BRICK("basaltbrick"),
+		CHISILED("basaltchiseled"),
+		CRACKED("basaltcracked"),
+		MOSSY("basaltmossy");
 		public String name;
 
 		private block(String name)

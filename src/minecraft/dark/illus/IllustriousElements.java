@@ -118,13 +118,13 @@ public class IllustriousElements
 		// Stained Glass //
 		for (int i = 0; i < dyeColorNames.length; i++)
 		{
-			FurnaceRecipes.smelting().addSmelting(this.itemRefinedSand.itemID, i, new ItemStack(this.blockStainGlass, 1, i), 10F);
+			FurnaceRecipes.smelting().addSmelting(IllustriousElements.itemRefinedSand.itemID, i, new ItemStack(IllustriousElements.blockStainGlass, 1, i), 10F);
 		}
 
 		// Glowing Glass //
 		for (int i = 0; i < dyeColorNames.length; i++)
 		{
-			FurnaceRecipes.smelting().addSmelting(this.itemGlowingSand.itemID, i, new ItemStack(this.blockGlowGlass, 1, i), 10F);
+			FurnaceRecipes.smelting().addSmelting(IllustriousElements.itemGlowingSand.itemID, i, new ItemStack(IllustriousElements.blockGlowGlass, 1, i), 10F);
 		}
 
 		// Colored Sand //
@@ -135,12 +135,12 @@ public class IllustriousElements
 
 		// Extra Block //
 
-		GameRegistry.addShapelessRecipe(new ItemStack(blockBasalt, 1, BlockBasalt.block.COBBLE.ordinal()), new Object[] { new ItemStack(blockBasalt, 1, BlockBasalt.block.STONE.ordinal())});
+		GameRegistry.addShapelessRecipe(new ItemStack(blockBasalt, 1, BlockBasalt.block.COBBLE.ordinal()), new Object[] { new ItemStack(blockBasalt, 1, BlockBasalt.block.STONE.ordinal()) });
 		GameRegistry.addShapelessRecipe(new ItemStack(blockBasalt, 1, BlockBasalt.block.MOSSY.ordinal()), new Object[] { new ItemStack(blockBasalt, 1, BlockBasalt.block.BRICK.ordinal()), Block.vine });
 		GameRegistry.addShapelessRecipe(new ItemStack(blockBasalt, 2, BlockBasalt.block.CRACKED.ordinal()), new Object[] { new ItemStack(blockBasalt, 1, BlockBasalt.block.BRICK.ordinal()), new ItemStack(blockBasalt, 1, BlockBasalt.block.BRICK.ordinal()) });
 		GameRegistry.addRecipe(new ItemStack(blockBasalt, 4, BlockBasalt.block.BRICK.ordinal()), new Object[] { "SS", "SS", 'S', new ItemStack(blockBasalt, 1, BlockBasalt.block.STONE.ordinal()) });
-		GameRegistry.addRecipe(new ItemStack(blockBasalt, 8, BlockBasalt.block.CHISILED.ordinal()), new Object[] { "SSS","S S", "SSS", 'S', new ItemStack(blockBasalt, 1, BlockBasalt.block.STONE.ordinal()) });
-		
+		GameRegistry.addRecipe(new ItemStack(blockBasalt, 8, BlockBasalt.block.CHISILED.ordinal()), new Object[] { "SSS", "S S", "SSS", 'S', new ItemStack(blockBasalt, 1, BlockBasalt.block.STONE.ordinal()) });
+
 		GameRegistry.addShapelessRecipe(new ItemStack(blockBasalt, 2, BlockBasalt.block.COBBLE.ordinal()), new Object[] { Block.cobblestone, new ItemStack(blockBasalt, 1, BlockBasalt.block.STONE.ordinal()) });
 		GameRegistry.addSmelting(Block.stone.blockID, new ItemStack(blockBasalt, 1, BlockBasalt.block.STONE.ordinal()), 1f);
 

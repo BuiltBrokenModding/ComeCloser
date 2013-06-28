@@ -61,7 +61,7 @@ public class BlockColored extends Block
 	{
 		if (colorized)
 		{
-			this.singleIcon = iconReg.registerIcon(IllustriousElements.TEXTURE_NAME_PREFIX + this.getUnlocalizedName().replace("tile.",""));
+			this.singleIcon = iconReg.registerIcon(IllustriousElements.TEXTURE_NAME_PREFIX + this.getUnlocalizedName().replace("tile.", ""));
 		}
 		else
 		{
@@ -69,7 +69,7 @@ public class BlockColored extends Block
 
 			for (int i = 0; i < this.icons.length; ++i)
 			{
-				this.icons[i] = iconReg.registerIcon(IllustriousElements.TEXTURE_NAME_PREFIX +IllustriousElements.dyeColorNames[~i & 15] + this.getUnlocalizedName().replace("tile.",""));
+				this.icons[i] = iconReg.registerIcon(IllustriousElements.TEXTURE_NAME_PREFIX + IllustriousElements.dyeColorNames[~i & 15] + this.getUnlocalizedName().replace("tile.", ""));
 			}
 		}
 	}
