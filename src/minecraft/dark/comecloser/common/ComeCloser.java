@@ -13,6 +13,7 @@ import net.minecraft.network.packet.NetHandler;
 import net.minecraft.network.packet.Packet1Login;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 
@@ -106,7 +107,7 @@ public class ComeCloser extends DummyModContainer implements IPacketHandler, ICo
 		EntityPlayer player = netHandler.getPlayer();
 		if (player != null && !player.worldObj.isRemote)
 		{
-			player.sendChatToPlayer("ComeCloser: TagRange:" + sneakRange + "|" + standingRange);
+			player.sendChatToPlayer(ChatMessageComponent.func_111066_d("ComeCloser: TagRange:" + sneakRange + "|" + standingRange));
 		}
 		sendPacket();
 	}

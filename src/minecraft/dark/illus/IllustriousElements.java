@@ -73,6 +73,7 @@ public class IllustriousElements
 	public static Block blockColorSand;
 	public static Block blockBasalt;
 	public static Block blockGlowGlass;
+	public static Block blockRender;
 
 	// Item //
 	public static Item itemRefinedSand;
@@ -89,7 +90,7 @@ public class IllustriousElements
 		blockColorSand = new BlockColorSand(config.getBlock(Configuration.CATEGORY_BLOCK, "ColoredSandBlockID", 1201).getInt());
 		blockBasalt = new BlockBasalt(config.getBlock(Configuration.CATEGORY_BLOCK, "ExtraBlocksBlockID", 1202).getInt());
 		blockGlowGlass = new BlockColorGlass(config.getBlock(Configuration.CATEGORY_BLOCK, "GlowingGlassBlockID", 1203).getInt(), "GlowGlass").setLightOpacity(2).setLightValue(1);
-
+		
 		itemRefinedSand = new ItemColored(config.getItem(Configuration.CATEGORY_ITEM, "RefinedSandItemID", 30010).getInt(), "RefinedSand");
 		itemGlowingSand = new ItemColored(config.getItem(Configuration.CATEGORY_ITEM, "GlowingRefinedSandItemID", 30020).getInt(), "GlowRefinedSand");
 		config.save();
@@ -99,6 +100,9 @@ public class IllustriousElements
 		GameRegistry.registerBlock(blockColorSand, ItemBlockColored.class, "stainSand");
 		GameRegistry.registerBlock(blockBasalt, ItemBlockBasalt.class, "extraBlocks");
 		GameRegistry.registerBlock(blockGlowGlass, ItemBlockColored.class, "stainGlowGlass");
+		GameRegistry.registerBlock(blockRender, "BlockBlockRender");
+
+		
 	}
 
 	@Init
@@ -155,7 +159,7 @@ public class IllustriousElements
 		// Glowing Refined Sand //
 		for (int j = 0; j < dyeColorNames.length; j++)
 		{
-			GameRegistry.addShapelessRecipe(new ItemStack(itemGlowingSand, 1, j), new Object[] { new ItemStack(itemRefinedSand, 1, j), new ItemStack(Item.lightStoneDust, 1) });
+			GameRegistry.addShapelessRecipe(new ItemStack(itemGlowingSand, 1, j), new Object[] { new ItemStack(itemRefinedSand, 1, j), Item.redstone });
 		}
 	}
 }
