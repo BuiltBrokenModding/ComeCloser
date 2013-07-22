@@ -11,6 +11,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PostInit;
@@ -73,13 +74,12 @@ public class IllustriousElements
 	public static Block blockColorSand;
 	public static Block blockBasalt;
 	public static Block blockGlowGlass;
-	public static Block blockRender;
 
 	// Item //
 	public static Item itemRefinedSand;
 	public static Item itemGlowingSand;
 
-	@PreInit
+	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		proxy.preInit();
@@ -100,12 +100,11 @@ public class IllustriousElements
 		GameRegistry.registerBlock(blockColorSand, ItemBlockColored.class, "stainSand");
 		GameRegistry.registerBlock(blockBasalt, ItemBlockBasalt.class, "extraBlocks");
 		GameRegistry.registerBlock(blockGlowGlass, ItemBlockColored.class, "stainGlowGlass");
-		GameRegistry.registerBlock(blockRender, "BlockBlockRender");
 
 		
 	}
 
-	@Init
+	@EventHandler
 	public void generalLoad(FMLInitializationEvent event)
 	{
 		proxy.init();
@@ -113,7 +112,7 @@ public class IllustriousElements
 		FMLog.info(" Loaded: " + TranslationHelper.loadLanguages(LANGUAGE_PATH, LANGUAGES_SUPPORTED) + " Languages.");
 	}
 
-	@PostInit
+	@EventHandler
 	public void postLoad(FMLPostInitializationEvent event)
 	{
 		proxy.postInit();
