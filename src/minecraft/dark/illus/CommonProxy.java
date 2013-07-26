@@ -3,19 +3,19 @@ package dark.illus;
 public class CommonProxy
 {
 
-	public void preInit()
-	{
+    public void preInit()
+    {
 
-	}
+    }
 
-	public void postInit()
-	{
+    public void postInit()
+    {
 
-	}
+    }
 
-	public void init()
-	{
+    public void init()
+    {
 
-	}
+    }
 
 }

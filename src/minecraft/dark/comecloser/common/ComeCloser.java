@@ -37,139 +37,139 @@ import cpw.mods.fml.relauncher.SideOnly;
 @NetworkMod(channels = { ComeCloser.CHANNEL }, clientSideRequired = true, serverSideRequired = false, connectionHandler = ComeCloser.class, packetHandler = ComeCloser.class)
 public class ComeCloser extends DummyModContainer implements IPacketHandler, IConnectionHandler
 {
-	@Instance("ComeCloser")
-	public static ComeCloser Instance;
+    @Instance("ComeCloser")
+    public static ComeCloser Instance;
 
-	public static final String CHANNEL = "ComeCloser";
-	// Variables //
-	static Configuration config = new Configuration(new File(cpw.mods.fml.common.Loader.instance().getConfigDir(), "ComeCloser.cfg"));
+    public static final String CHANNEL = "ComeCloser";
+    // Variables //
+    static Configuration config = new Configuration(new File(cpw.mods.fml.common.Loader.instance().getConfigDir(), "ComeCloser.cfg"));
 
-	public static float standingRange = 64f;
-	public static float sneakRange = 32f;
+    public static float standingRange = 64f;
+    public static float sneakRange = 32f;
 
-	@PreInit
-	public void preInit(FMLPreInitializationEvent event)
-	{
-		// // Config ////
-		if (event.getSide() == Side.SERVER)
-		{
-			config.load();
-			sneakRange = config.get(Configuration.CATEGORY_GENERAL, "SneakRange", 32).getInt();
-			standingRange = config.get(Configuration.CATEGORY_GENERAL, "NormalRange", 64).getInt();
-			config.save();
-		}
+    @PreInit
+    public void preInit(FMLPreInitializationEvent event)
+    {
+        // // Config ////
+        if (event.getSide() == Side.SERVER)
+        {
+            config.load();
+            sneakRange = config.get(Configuration.CATEGORY_GENERAL, "SneakRange", 32).getInt();
+            standingRange = config.get(Configuration.CATEGORY_GENERAL, "NormalRange", 64).getInt();
+            config.save();
+        }
 
-	}
+    }
 
-	@SideOnly(Side.CLIENT)
-	public void changeRangeClient(float high, float low)
-	{
-		RenderLiving.NAME_TAG_RANGE = high;
-		RenderLiving.NAME_TAG_RANGE_SNEAK = low;
-	}
+    @SideOnly(Side.CLIENT)
+    public void changeRangeClient(float high, float low)
+    {
+        RenderLiving.NAME_TAG_RANGE = high;
+        RenderLiving.NAME_TAG_RANGE_SNEAK = low;
+    }
 
-	public void changeRangeServer(float high, float low)
-	{
-		ComeCloser.sneakRange = low;
-		ComeCloser.standingRange = high;
-		this.sendPacket();
-	}
+    public void changeRangeServer(float high, float low)
+    {
+        ComeCloser.sneakRange = low;
+        ComeCloser.standingRange = high;
+        this.sendPacket();
+    }
 
-	public void sendPacket()
-	{
-		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-		DataOutputStream data = new DataOutputStream(bytes);
-		try
-		{
-			data.writeFloat(sneakRange);
+    public void sendPacket()
+    {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        DataOutputStream data = new DataOutputStream(bytes);
+        try
+        {
+            data.writeFloat(sneakRange);
 
-			data.writeFloat(standingRange);
+            data.writeFloat(standingRange);
 
-			Packet250CustomPayload packet = new Packet250CustomPayload();
-			packet.channel = CHANNEL;
-			packet.data = bytes.toByteArray();
-			packet.length = packet.data.length;
+            Packet250CustomPayload packet = new Packet250CustomPayload();
+            packet.channel = CHANNEL;
+            packet.data = bytes.toByteArray();
+            packet.length = packet.data.length;
 
-			if (FMLCommonHandler.instance().getMinecraftServerInstance() != null)
-			{
-				FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().sendPacketToAllPlayers(packet);
-			}
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
+            if (FMLCommonHandler.instance().getMinecraftServerInstance() != null)
+            {
+                FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().sendPacketToAllPlayers(packet);
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
-	@Override
-	public void playerLoggedIn(Player p, NetHandler netHandler, INetworkManager manager)
-	{
-		EntityPlayer player = netHandler.getPlayer();
-		if (player != null && !player.worldObj.isRemote)
-		{
-			player.sendChatToPlayer(ChatMessageComponent.func_111066_d("ComeCloser: TagRange:" + sneakRange + "|" + standingRange));
-		}
-		sendPacket();
-	}
+    @Override
+    public void playerLoggedIn(Player p, NetHandler netHandler, INetworkManager manager)
+    {
+        EntityPlayer player = netHandler.getPlayer();
+        if (player != null && !player.worldObj.isRemote)
+        {
+            player.sendChatToPlayer(ChatMessageComponent.func_111066_d("ComeCloser: TagRange:" + sneakRange + "|" + standingRange));
+        }
+        sendPacket();
+    }
 
-	@Override
-	public String connectionReceived(NetLoginHandler netHandler, INetworkManager manager)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String connectionReceived(NetLoginHandler netHandler, INetworkManager manager)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public void connectionOpened(NetHandler netClientHandler, String server, int port, INetworkManager manager)
-	{
-		// TODO Auto-generated method stub
+    @Override
+    public void connectionOpened(NetHandler netClientHandler, String server, int port, INetworkManager manager)
+    {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void connectionOpened(NetHandler netClientHandler, MinecraftServer server, INetworkManager manager)
-	{
-		// TODO Auto-generated method stub
+    @Override
+    public void connectionOpened(NetHandler netClientHandler, MinecraftServer server, INetworkManager manager)
+    {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void connectionClosed(INetworkManager manager)
-	{
-		// TODO Auto-generated method stub
+    @Override
+    public void connectionClosed(INetworkManager manager)
+    {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void clientLoggedIn(NetHandler clientHandler, INetworkManager manager, Packet1Login login)
-	{
-		sendPacket();
+    @Override
+    public void clientLoggedIn(NetHandler clientHandler, INetworkManager manager, Packet1Login login)
+    {
+        sendPacket();
 
-	}
+    }
 
-	@Override
-	public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player)
-	{
-		try
-		{
-			ByteArrayDataInput data = ByteStreams.newDataInput(packet.data);
+    @Override
+    public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player)
+    {
+        try
+        {
+            ByteArrayDataInput data = ByteStreams.newDataInput(packet.data);
 
-			float f = data.readFloat();
-			float f2 = data.readFloat();
-			this.changeRangeClient(f2, f);
-			if (player instanceof EntityPlayer)
-			{
-				World world = ((EntityPlayer) player).worldObj;
-				if (world != null && world.isRemote)
-				{
-					/* TODO remove */// ((ICommandSender) player).sendChatToPlayer("ping");
-				}
-			}
-		}
-		catch (Exception e)
-		{
+            float f = data.readFloat();
+            float f2 = data.readFloat();
+            this.changeRangeClient(f2, f);
+            if (player instanceof EntityPlayer)
+            {
+                World world = ((EntityPlayer) player).worldObj;
+                if (world != null && world.isRemote)
+                {
+                    /* TODO remove */// ((ICommandSender) player).sendChatToPlayer("ping");
+                }
+            }
+        }
+        catch (Exception e)
+        {
 
-		}
+        }
 
-	}
+    }
 }
