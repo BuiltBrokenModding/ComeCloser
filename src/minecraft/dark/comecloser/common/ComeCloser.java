@@ -1,58 +1,48 @@
 package dark.comecloser.common;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.IOException;
 
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.NetLoginHandler;
 import net.minecraft.network.packet.NetHandler;
 import net.minecraft.network.packet.Packet1Login;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatMessageComponent;
-import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
-
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteStreams;
-
-import cpw.mods.fml.common.DummyModContainer;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.PreInit;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.IConnectionHandler;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = "ComeCloser ", name = "Come Closer", version = "0.2.3")
+@Mod(modid = "ComeCloser ", name = "Come Closer", version = "0.3.0")
 @NetworkMod(channels = { ComeCloser.CHANNEL }, clientSideRequired = true, serverSideRequired = false, connectionHandler = ComeCloser.class, packetHandler = ComeCloser.class)
-public class ComeCloser extends DummyModContainer implements IPacketHandler, IConnectionHandler
+public class ComeCloser implements IPacketHandler, IConnectionHandler
 {
     @Instance("ComeCloser")
     public static ComeCloser Instance;
 
+    @SidedProxy(clientSide = "dark.comecloser.common.ClientProxy", serverSide = "dark.comecloser.common.CommonProxy")
+    public static CommonProxy proxy;
+
     public static final String CHANNEL = "ComeCloser";
-    // Variables //
-    static Configuration config = new Configuration(new File(cpw.mods.fml.common.Loader.instance().getConfigDir(), "ComeCloser.cfg"));
 
     public static float standingRange = 64f;
     public static float sneakRange = 32f;
 
-    @PreInit
+    @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        this.Instance = this;
         // // Config ////
         if (event.getSide() == Side.SERVER)
         {
+            Configuration config = new Configuration(new File(cpw.mods.fml.common.Loader.instance().getConfigDir(), "ComeCloser.cfg"));
             config.load();
             sneakRange = config.get(Configuration.CATEGORY_GENERAL, "SneakRange", 32).getInt();
             standingRange = config.get(Configuration.CATEGORY_GENERAL, "NormalRange", 64).getInt();
@@ -61,115 +51,52 @@ public class ComeCloser extends DummyModContainer implements IPacketHandler, ICo
 
     }
 
-    @SideOnly(Side.CLIENT)
-    public void changeRangeClient(float high, float low)
-    {
-        RenderLiving.NAME_TAG_RANGE = high;
-        RenderLiving.NAME_TAG_RANGE_SNEAK = low;
-    }
-
-    public void changeRangeServer(float high, float low)
-    {
-        ComeCloser.sneakRange = low;
-        ComeCloser.standingRange = high;
-        this.sendPacket();
-    }
-
-    public void sendPacket()
-    {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        DataOutputStream data = new DataOutputStream(bytes);
-        try
-        {
-            data.writeFloat(sneakRange);
-
-            data.writeFloat(standingRange);
-
-            Packet250CustomPayload packet = new Packet250CustomPayload();
-            packet.channel = CHANNEL;
-            packet.data = bytes.toByteArray();
-            packet.length = packet.data.length;
-
-            if (FMLCommonHandler.instance().getMinecraftServerInstance() != null)
-            {
-                FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().sendPacketToAllPlayers(packet);
-            }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
     @Override
-    public void playerLoggedIn(Player p, NetHandler netHandler, INetworkManager manager)
+    public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager)
     {
-        EntityPlayer player = netHandler.getPlayer();
-        if (player != null && !player.worldObj.isRemote)
-        {
-            player.sendChatToPlayer(ChatMessageComponent.func_111066_d("ComeCloser: TagRange:" + sneakRange + "|" + standingRange));
-        }
-        sendPacket();
+        proxy.playerLoggedIn(player, netHandler, manager);
+
     }
 
     @Override
     public String connectionReceived(NetLoginHandler netHandler, INetworkManager manager)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return proxy.connectionReceived(netHandler, manager);
     }
 
     @Override
     public void connectionOpened(NetHandler netClientHandler, String server, int port, INetworkManager manager)
     {
-        // TODO Auto-generated method stub
+        proxy.connectionOpened(netClientHandler, server, port, manager);
 
     }
 
     @Override
     public void connectionOpened(NetHandler netClientHandler, MinecraftServer server, INetworkManager manager)
     {
-        // TODO Auto-generated method stub
+        proxy.connectionOpened(netClientHandler, server, manager);
 
     }
 
     @Override
     public void connectionClosed(INetworkManager manager)
     {
-        // TODO Auto-generated method stub
+        proxy.connectionClosed(manager);
 
     }
 
     @Override
     public void clientLoggedIn(NetHandler clientHandler, INetworkManager manager, Packet1Login login)
     {
-        sendPacket();
+        proxy.clientLoggedIn(clientHandler, manager, login);
 
     }
 
     @Override
     public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player)
     {
-        try
-        {
-            ByteArrayDataInput data = ByteStreams.newDataInput(packet.data);
-
-            float f = data.readFloat();
-            float f2 = data.readFloat();
-            this.changeRangeClient(f2, f);
-            if (player instanceof EntityPlayer)
-            {
-                World world = ((EntityPlayer) player).worldObj;
-                if (world != null && world.isRemote)
-                {
-                    /* TODO remove */// ((ICommandSender) player).sendChatToPlayer("ping");
-                }
-            }
-        }
-        catch (Exception e)
-        {
-
-        }
+        proxy.onPacketData(manager, packet, player);
 
     }
+
 }
