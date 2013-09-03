@@ -1,4 +1,4 @@
-Dark's Work Bench
+Come Closer
 ===============
 
-A Small collection of random mods or minecraft project DarkGuardsman or other are working on. 
+A Simple system designed to improve SMP by changing how the player name tag is rendered.
