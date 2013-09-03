@@ -1,4 +1,4 @@
-package dark.comecloser.common;
+package dark.comecloser;
 
 import java.io.File;
 
@@ -27,7 +27,7 @@ public class ComeCloser implements IPacketHandler, IConnectionHandler
     @Instance("ComeCloser")
     public static ComeCloser Instance;
 
-    @SidedProxy(clientSide = "dark.comecloser.common.ClientProxy", serverSide = "dark.comecloser.common.CommonProxy")
+    @SidedProxy(clientSide = "dark.comecloser.ClientProxy", serverSide = "dark.comecloser.CommonProxy")
     public static CommonProxy proxy;
 
     public static final String CHANNEL = "ComeCloser";

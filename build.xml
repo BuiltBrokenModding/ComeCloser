@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="Dark's%20Random%20Box" default="build">
+<project name="ComeCloser" default="build">
 
 	<property file="build.properties" />
 	<property environment="env" />
-	<property name="file.EEjar" value= "IllustriousElements_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.jar" />
-    <property name="file.Cjar" value= "ComeCloser_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.jar" />
+    <property name="file.Cjar" value= "ComeCloser_v${version.mod.major}.${version.mod.minor}_B${env.BUILD_NUMBER}.jar" />
 
 	<target name="build">
 
@@ -15,13 +14,10 @@
 		<delete dir="${dir.development}/forge" />
 		
 		<copy todir="${dir.development}">
-			<fileset dir="../Minecraft Forge/" />
+			<fileset dir="../Minecraft Forge Latest/" />
 		</copy>
         
-        <mkdir dir="download" />
-        
 		<copy todir="${dir.mcp}/src/minecraft">
-			
 			<fileset dir="${dir.development}src">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
@@ -30,8 +26,7 @@
 		
 		<mkdir dir="contents" />
         <mkdir dir="contents/comecloser" />
-        <mkdir dir="contents/illus" />
-		<mkdir dir="build" />
+		<mkdir dir="output" />
 		
 		<replace dir="${dir.mcp}/src/minecraft" token="@MAJOR@" value="${version.mod.major}" />
 		<replace dir="${dir.mcp}/src/minecraft" token="@MINOR@" value="${version.mod.minor}" />
@@ -51,21 +46,6 @@
 		<exec dir="${dir.mcp}" executable="bash" osfamily="unix">
 			<arg line="reobfuscate_srg.sh" />
 		</exec>
-
-		<copy todir="contents/illus">
-			<fileset dir="${dir.mcp}/reobf/minecraft/" excludes=".git/**">
-				<exclude name="**/BCLoader.class"/>
-                <exclude name="**/comecloser/"/>
-                <exclude name="**/holoprojector/"/>
-			</fileset>
-		
-			<fileset dir="${dir.development}resources">
-				<exclude name=".git/**"/>
-                <exclude name="**/*.tcn"/>
-				<exclude name="**/*.java"/>
-				<exclude name="**/*.xml"/>
-			</fileset> 
-		</copy>
         
         <copy todir="contents/comecloser">
 			<fileset dir="${dir.mcp}/reobf/minecraft/" excludes=".git/**">
@@ -73,19 +53,16 @@
                 <exclude name="**/illus/"/>
                 <exclude name="**/holoprojector/"/>
 			</fileset>
+            <fileset dir="${dir.development}resources">
+				<exclude name=".git/**"/>
+                <exclude name="**/*.tcn"/>
+				<exclude name="**/*.java"/>
+				<exclude name="**/*.xml"/>
+			</fileset> 
 		</copy>
-
-
-		<jar destfile="output/${file.EEjar}">
-			<fileset dir="contents/illus" />
-		</jar>
         <jar destfile="output/${file.Cjar}">
 			<fileset dir="contents/comecloser" />
-		</jar>
-    
-		<echo file="${env.JENKINS_HOME}/jobs/${env.JOB_NAME}/info.txt" append="true" >
-		@ ${env.BUILD_NUMBER} ${version.minecraft} ${file.EEjar}</echo>
-		<scp todir="${username}:${password}@shell.sourceforge.net:/home/users/U/US/${USERNAME}/comeclosermcmod/files/Downloads/1.5.2/" file ="output/${file.Cjar}"></scp>
+		</jar>    	
 		<copy todir="output" file="build.properties" />
 	</target>
 </project>

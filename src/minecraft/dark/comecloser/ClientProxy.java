@@ -1,4 +1,4 @@
-package dark.comecloser.common;
+package dark.comecloser;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;

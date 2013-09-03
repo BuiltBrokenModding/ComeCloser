@@ -1,4 +1,4 @@
-package dark.comecloser.common;
+package dark.comecloser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
