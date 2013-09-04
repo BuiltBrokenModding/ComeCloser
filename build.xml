@@ -48,21 +48,17 @@
 		</exec>
         
         <copy todir="contents/comecloser">
-			<fileset dir="${dir.mcp}/reobf/minecraft/" excludes=".git/**">
-				<exclude name="**/BCLoader.class"/>
-                <exclude name="**/illus/"/>
-                <exclude name="**/holoprojector/"/>
+			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="dark/comecloser">
 			</fileset>
             <fileset dir="${dir.development}resources">
-				<exclude name=".git/**"/>
-                <exclude name="**/*.tcn"/>
-				<exclude name="**/*.java"/>
-				<exclude name="**/*.xml"/>
 			</fileset> 
+            <fileset dir="${dir.development}LICENSE.txt">
+			</fileset>
 		</copy>
         <jar destfile="output/${file.Cjar}">
 			<fileset dir="contents/comecloser" />
 		</jar>    	
 		<copy todir="output" file="build.properties" />
+        <copy todir="output" file="LICENSE.txt" />
 	</target>
 </project>
