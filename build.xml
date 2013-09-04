@@ -52,9 +52,8 @@
 			</fileset>
             <fileset dir="${dir.development}resources">
 			</fileset> 
-            <fileset dir="${dir.development}LICENSE.txt">
-			</fileset>
 		</copy>
+        <copy todir="contents/comecloser" file="LICENSE.txt" />
         <jar destfile="output/${file.Cjar}">
 			<fileset dir="contents/comecloser" />
 		</jar>    	
