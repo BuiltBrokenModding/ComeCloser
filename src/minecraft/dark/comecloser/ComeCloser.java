@@ -27,7 +27,11 @@ import cpw.mods.fml.relauncher.Side;
 @NetworkMod(channels = { ComeCloser.CHANNEL }, clientSideRequired = true, serverSideRequired = false, connectionHandler = ComeCloser.class, packetHandler = ComeCloser.class)
 public class ComeCloser implements IPacketHandler, IConnectionHandler
 {
-
+    /*Idea cache a list of boolean values in the player to control if the tag should be rendered fully or not
+     *As well cache range values per player on the server and detect and send player data to client when players are in range
+     *Use this as well to control render ranges per player server side doing ray traces to determine ranges
+     *
+     */
     // @Mod Prerequisites
     public static final String MAJOR_VERSION = "@MAJOR@";
     public static final String MINOR_VERSION = "@MINOR@";
