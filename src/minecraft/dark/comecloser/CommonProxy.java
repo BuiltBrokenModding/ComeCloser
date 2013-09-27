@@ -61,7 +61,7 @@ public class CommonProxy implements IPacketHandler, IConnectionHandler
 		EntityPlayer player = netHandler.getPlayer();
 		if (player != null && !player.worldObj.isRemote)
 		{
-			player.sendChatToPlayer(ChatMessageComponent.func_111066_d("ComeCloser>>TagRange:" + ComeCloser.sneakRange + "<->" + ComeCloser.standingRange));
+			player.sendChatToPlayer(ChatMessageComponent.createFromText("ComeCloser>>TagRange:" + ComeCloser.sneakRange + "<->" + ComeCloser.standingRange));
 		}
 		this.sendPacket(p, ComeCloser.standingRange, ComeCloser.sneakRange);
 	}
