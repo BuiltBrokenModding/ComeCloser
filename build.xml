@@ -48,7 +48,7 @@
 		</exec>
         
         <copy todir="contents/comecloser">
-			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="dark/comecloser">
+			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="dark/comecloser/">
 			</fileset>
             <fileset dir="${dir.development}resources">
 			</fileset> 
