@@ -46,12 +46,9 @@
 		<exec dir="${dir.mcp}" executable="bash" osfamily="unix">
 			<arg line="reobfuscate_srg.sh" />
 		</exec>
-        
         <copy todir="contents/comecloser">
-			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="dark/comecloser/">
-			</fileset>
-            <fileset dir="${dir.development}resources">
-			</fileset> 
+			<fileset dir="${dir.mcp}/reobf/minecraft" includes="dark/comecloser/" />
+            <fileset dir="${dir.development}resources" excludes=".git/**" />
 		</copy>
         <copy todir="contents/comecloser" file="LICENSE.txt" />
         <jar destfile="output/${file.Cjar}">
