@@ -36,18 +36,12 @@ group = "comecloser"
 archivesBaseName = "${System.getenv().JOB_NAME}"
 
 minecraft {
-    version = "${config.version.minecraft}-${config.version.forge}"
-	
-	replaceIn "Reference.java"
+    version = "${config.version.minecraft}-${config.version.forge}"	
+	replaceIn "ComeCloser.java"
 	replace "@MAJOR@", config.version.mod.major
 	replace "@MINOR@", config.version.mod.minor
 	replace "@REVIS@", config.version.mod.revis
-	if (System.getenv("BUILD_NUMBER") != null) {
-		replace "@BUILD@", System.getenv("BUILD_NUMBER")
-	}
-	else {
-		replace "@BUILD@", 1
-	}
+	replace "@BUILD@", System.getenv("BUILD_NUMBER")
 }
 
 if (System.getenv("BUILD_NUMBER") != null)
