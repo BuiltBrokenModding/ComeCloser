@@ -5,21 +5,17 @@ buildscript {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
     }
 }
 
 apply plugin: 'forge'
-
-sourceSets {
-	main {
-		java {
-			srcDirs 'src/main/java'
-		}
-	}
-}
 
 def ENV = System.getenv()
 
@@ -32,7 +28,7 @@ buildProps.withReader {
 }
 
 version = "${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}"
-group = "comecloser"
+group = "dark"
 archivesBaseName = "${System.getenv().JOB_NAME}"
 
 minecraft {
