@@ -15,9 +15,9 @@ buildscript {
     }
 }
 
+apply plugin: "curseforge"
 apply plugin: 'forge'
-
-def ENV = System.getenv()
+apply plugin: 'maven-publish'
 
 ext.buildProps = file "build.properties"
 
@@ -29,7 +29,7 @@ buildProps.withReader {
 
 version = "${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}"
 group = "dark"
-archivesBaseName = "${System.getenv().JOB_NAME}"
+archivesBaseName = "ComeCloser"
 
 minecraft {
     version = "${config.version.minecraft}-${config.version.forge}"	
@@ -39,9 +39,6 @@ minecraft {
 	replace "@REVIS@", config.version.mod.revis
 	replace "@BUILD@", System.getenv("BUILD_NUMBER")
 }
-
-if (System.getenv("BUILD_NUMBER") != null)
-    version += ".${System.getenv("BUILD_NUMBER")}"
 
 
 processResources {
@@ -66,20 +63,50 @@ repositories {
 	}
 }
 
-import net.minecraftforge.gradle.tasks.dev.ChangelogTask
-import net.minecraftforge.gradle.common.Constants
-import net.minecraftforge.gradle.delayed.*
-
-task createChangelog(type: ChangelogTask) {
-    def jobName = "${System.getenv().JOB_NAME}"
-    def buildNumber = "${System.getenv().BUILD_NUMBER}"
-    jobName.replaceAll(' ','%20')
-    setServerRoot(new DelayedString(project, 'http://ci.calclavia.com/'))
-    setJobName(new DelayedString(project, jobName.toString()));
-    setAuthName(new DelayedString(project, 'console_script'));
-    setAuthPassword(new DelayedString(project, '625d2ac53190be3422faa0c474fb299b'));
-    setTargetBuild({buildNumber.toString()});
-    setOutput(new DelayedFile(project, 'output/' + jobName + "-${project.version}" + '-changelog' + '.txt'));
+task javadocJar(type: Jar, dependsOn: 'javadoc') {
+   
+    from javadoc.destinationDir
+    if (project.getProperty("bambooshortPlanName") == "NEK-Dev") classifier = "javadoc-dev"
 }
 
-build.dependsOn "createChangelog"
+jar { 
+    if (project.getProperty("bambooshortPlanName") == "NEK-Dev") classifier = "dev"
+    
+    dependsOn copyBuildXml
+    }
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    if (project.getProperty("bambooshortPlanName") == "NEK-Dev") classifier = "deobf-dev"
+}
+
+artifacts {
+    archives deobfJar
+    archives javadocJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication)
+        {
+            artifact jar
+            artifact deobfJar
+            artifact javadocJar
+            artifactId 'NeK'
+            artifact("build/libs/changelog.xml") {
+                classifier "changelog"
+                extension "xml"
+            }
+            artifact("build/libs/build.properties") {
+                classifier "build"
+                extension "properties"
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url "file:///var/www/html/maven"
+        }
+    }
+}
