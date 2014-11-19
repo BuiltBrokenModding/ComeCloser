@@ -21,10 +21,43 @@ apply plugin: 'maven-publish'
 
 ext.buildProps = file "build.properties"
 
+if (project.hasProperty("bambooBuildNumber"))
+    version += project.bambooBuildNumber
+else
+    version += "NIGHTLY"
+    
+if (project.getProperty("bambooshortPlanName") == "NEK-Dev")
+    version += "-dev"
+
+println "version = "+ version
+
 buildProps.withReader {
     def prop = new Properties()
     prop.load(it)
     ext.config = new ConfigSlurper().parse prop
+}
+
+task makePretty(type: Delete) {
+  delete 'output'
+}
+
+clean{
+   dependsOn makePretty
+}
+
+curse {
+    apiKey = project.dmodcurse
+    projectId = "224614"
+    // my project url is http://minecraft.curseforge.com/mc-mods/59652-seretroomsmod/
+    changelog = "check out https://github.com/mod-warriors/NotEnoughKeys/commits/master"
+    releaseType = "beta"
+
+    // the default obfuscated jar is uploaded by default
+    // artifact = project.file("some/jar/to/upload.jar")
+
+    // allows you to add extra compatible MC versions. The one specified in the minecraft{} block is used by default.
+    addGameVersion "1.7.10"
+    // addGameversion "1.7.0", "1.7.4"
 }
 
 version = "${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}"
@@ -51,6 +84,7 @@ task copyBuildXml(type: Copy) {
 }
 
 jar {
+if (project.getProperty("bambooshortPlanName") == "NEK-Dev") classifier = "dev"
     dependsOn copyBuildXml
     classifier = ''
     destinationDir = file 'output'
@@ -67,22 +101,36 @@ task javadocJar(type: Jar, dependsOn: 'javadoc') {
    
     from javadoc.destinationDir
     if (project.getProperty("bambooshortPlanName") == "NEK-Dev") classifier = "javadoc-dev"
+    else classifier = "javadoc"
 }
-
-jar { 
-    if (project.getProperty("bambooshortPlanName") == "NEK-Dev") classifier = "dev"
-    
-    dependsOn copyBuildXml
-    }
 
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     if (project.getProperty("bambooshortPlanName") == "NEK-Dev") classifier = "deobf-dev"
+    else classifier = "deobf"
 }
 
 artifacts {
     archives deobfJar
     archives javadocJar
+}
+
+processResources {
+	from(sourceSets.main.resources.srcDirs) {
+		include '**/*.lang'
+		include '**/*.info'
+		include '**/*.properties'
+
+		expand 'version': project.version, 'mcversion': config.version.minecraft
+		// replace version and MCVersion
+	}
+
+	// copy everything else, thats not text
+	from(sourceSets.main.resources.srcDirs) {
+		exclude '**/*.lang'
+		exclude '**/*.info'
+		exclude '**/*.properties'
+	}
 }
 
 publishing {
@@ -91,13 +139,8 @@ publishing {
         {
             artifact jar
             artifact deobfJar
-            artifact javadocJar
-            artifactId 'NeK'
-            artifact("build/libs/changelog.xml") {
-                classifier "changelog"
-                extension "xml"
-            }
-            artifact("build/libs/build.properties") {
+            artifactId 'comeCloser'
+            artifact("output/build.properties") {
                 classifier "build"
                 extension "properties"
             }
@@ -106,7 +149,7 @@ publishing {
 
     repositories {
         maven {
-            url "file:///var/www/html/maven"
+            url "file:///C:/Users/Admin/Desktop/Minecraft/maven"
         }
     }
 }
