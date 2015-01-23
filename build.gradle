@@ -15,20 +15,21 @@ buildscript {
     }
 }
 
-apply plugin: "curseforge"
+apply from: './BuiltBrokenScripts/index.gradle'
 apply plugin: 'forge'
-apply plugin: 'maven-publish'
 
 ext.buildProps = file "build.properties"
+
+println "Current Minecraft version = " + minecraft.apiVersion
+
+def currentJvm = org.gradle.internal.jvm.Jvm.current()
+println "Current Java version = " + currentJvm
 
 if (project.hasProperty("bambooBuildNumber"))
     version += project.bambooBuildNumber
 else
     version += "NIGHTLY"
     
-if (project.getProperty("bambooshortPlanName") == "NEK-Dev")
-    version += "-dev"
-
 println "version = "+ version
 
 buildProps.withReader {
@@ -37,82 +38,42 @@ buildProps.withReader {
     ext.config = new ConfigSlurper().parse prop
 }
 
-task makePretty(type: Delete) {
-  delete 'output'
+if (project.getProperty("bambooshortPlanName") == "BBM-Dev") {
+    group = "dev.builtbroken.comecloser"
+    archivesBaseName = "ComeCloser"
+} else {
+    group = "com.builtbroken.comecloser"
+    archivesBaseName = "ComeCloser"
 }
 
-clean{
-   dependsOn makePretty
-}
+println archivesBaseName 
 
-curse {
-    apiKey = project.dmodcurse
-    projectId = "224614"
-    // my project url is http://minecraft.curseforge.com/mc-mods/59652-seretroomsmod/
-    changelog = "check out https://github.com/mod-warriors/NotEnoughKeys/commits/master"
-    releaseType = "beta"
+version = "${project.minecraft.version}-${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}b"
 
-    // the default obfuscated jar is uploaded by default
-    // artifact = project.file("some/jar/to/upload.jar")
+// This is used to set the local version
+if (project.hasProperty("bambooBuildNumber"))
+    version += project.bambooBuildNumber
+else
+    version += "NIGHTLY"
 
-    // allows you to add extra compatible MC versions. The one specified in the minecraft{} block is used by default.
-    addGameVersion "1.7.10"
-    // addGameversion "1.7.0", "1.7.4"
-}
-
-version = "${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}"
-group = "dark"
-archivesBaseName = "ComeCloser"
+println "version = "+ version
 
 minecraft {
-    version = "${config.version.minecraft}-${config.version.forge}"	
-	replaceIn "ComeCloser.java"
 	replace "@MAJOR@", config.version.mod.major
 	replace "@MINOR@", config.version.mod.minor
 	replace "@REVIS@", config.version.mod.revis
-	replace "@BUILD@", System.getenv("BUILD_NUMBER")
+	
+	if (project.hasProperty("bambooBuildNumber")) {
+		replace "@BUILD@", project.bambooBuildNumber
+	}
+	else {
+		replace "@BUILD@", "nightly"
+	}
 }
 
 
 processResources {
 	from 'build.properties'
-}
-
-task copyBuildXml(type: Copy) {
-    from 'build.properties'
-    into 'output'
-}
-
-jar {
-if (project.getProperty("bambooshortPlanName") == "NEK-Dev") classifier = "dev"
-    dependsOn copyBuildXml
-    classifier = ''
-    destinationDir = file 'output'
-}
-
-repositories {
-    maven {
-		name 'Calclavia Maven'
-		url 'http://calclavia.com/maven'
-	}
-}
-
-task javadocJar(type: Jar, dependsOn: 'javadoc') {
-   
-    from javadoc.destinationDir
-    if (project.getProperty("bambooshortPlanName") == "NEK-Dev") classifier = "javadoc-dev"
-    else classifier = "javadoc"
-}
-
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    if (project.getProperty("bambooshortPlanName") == "NEK-Dev") classifier = "deobf-dev"
-    else classifier = "deobf"
-}
-
-artifacts {
-    archives deobfJar
-    archives javadocJar
 }
 
 processResources {
