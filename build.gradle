@@ -54,7 +54,7 @@ version = "${project.minecraft.version}-${config.version.mod.major}.${config.ver
 if (project.hasProperty("bambooBuildNumber"))
     version += project.bambooBuildNumber
 else
-    version += "NIGHTLY"
+    version += getDate()
 
 println "version = "+ version
 
@@ -67,7 +67,7 @@ minecraft {
 		replace "@BUILD@", project.bambooBuildNumber
 	}
 	else {
-		replace "@BUILD@", "nightly"
+		replace "@BUILD@", getDate()
 	}
 }
 
@@ -92,25 +92,4 @@ processResources {
 		exclude '**/*.info'
 		exclude '**/*.properties'
 	}
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication)
-        {
-            artifact jar
-            artifact deobfJar
-            artifactId 'comeCloser'
-            artifact("output/build.properties") {
-                classifier "build"
-                extension "properties"
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            url "file:///var/www/html/maven"
-        }
-    }
 }
