@@ -1,4 +1,4 @@
-package dark.comecloser;
+package com.builtbroken.comecloser;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent;

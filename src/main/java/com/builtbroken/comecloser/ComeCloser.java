@@ -1,9 +1,4 @@
-package dark.comecloser;
-
-import java.io.File;
-import java.util.Arrays;
-
-import net.minecraftforge.common.config.Configuration;
+package com.builtbroken.comecloser;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -16,6 +11,10 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraftforge.common.config.Configuration;
+
+import java.io.File;
+import java.util.Arrays;
 
 @Mod(modid = ComeCloser.MOD_ID, name = ComeCloser.MOD_NAME, version = ComeCloser.VERSION, useMetadata = true)
 public class ComeCloser
@@ -44,7 +43,7 @@ public class ComeCloser
     @Metadata(ComeCloser.MOD_ID)
     public static ModMetadata meta;
 
-    @SidedProxy(clientSide = "dark.comecloser.ClientProxy", serverSide = "dark.comecloser.CommonProxy")
+    @SidedProxy(clientSide = "com.builtbroken.comecloser.ClientProxy", serverSide = "com.builtbroken.comecloser.CommonProxy")
     public static CommonProxy proxy;
 
     static FMLEventChannel packetHandler;

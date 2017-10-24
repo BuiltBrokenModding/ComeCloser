@@ -1,4 +1,4 @@
-package dark.comecloser;
+package com.builtbroken.comecloser;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
