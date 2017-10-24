@@ -63,6 +63,9 @@ public class ComeCloser
             config.load();
             sneakRange = config.getInt("SneakRange", Configuration.CATEGORY_GENERAL, 32, 0, 300, "Distance in meters (blocks) to render name tag while sneaking");
             standingRange = config.getInt("NormalRange", Configuration.CATEGORY_GENERAL, 64, 0, 300, "Distance in meters (blocks) to render name tag");
+            doRayTrace = config.getBoolean("DoLineOfSight", Configuration.CATEGORY_GENERAL, doRayTrace, "Enabled line of sight check before rendering name tags to allow players to hide behind walls. " +
+                    "(line of sight -> ray trace from player to player eye line)");
+
             config.save();
         }
         this.loadModMeta();

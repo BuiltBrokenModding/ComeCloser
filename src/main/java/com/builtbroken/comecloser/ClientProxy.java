@@ -6,6 +6,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.RenderLivingEvent;
 
 public class ClientProxy extends CommonProxy
@@ -15,6 +16,7 @@ public class ClientProxy extends CommonProxy
     {
         RenderLiving.NAME_TAG_RANGE = ComeCloser.standingRange = max;
         RenderLiving.NAME_TAG_RANGE_SNEAK = ComeCloser.sneakRange = min;
+        Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("ComeCloser>>TagRange: " + ComeCloser.sneakRange + " <-> " + ComeCloser.standingRange));
     }
 
     @SubscribeEvent
@@ -39,10 +41,21 @@ public class ClientProxy extends CommonProxy
     @SubscribeEvent
     public void onRenderSpecialPre(RenderLivingEvent.Specials.Pre event)
     {
-        if (ComeCloser.doRayTrace && event.entity instanceof EntityPlayer && !Minecraft.getMinecraft().thePlayer.canEntityBeSeen(event.entity))
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        if (ComeCloser.doRayTrace && event.entity instanceof EntityPlayer)
         {
-            RenderLiving.NAME_TAG_RANGE = 1;
-            RenderLiving.NAME_TAG_RANGE_SNEAK = 1;
+            //Get distance to player squared
+            double distanceSQ = player.getDistanceSqToEntity(event.entity);
+
+            //Only do ray trace if within range
+            if(distanceSQ <= (ComeCloser.standingRange * ComeCloser.standingRange)
+                    //Do ray trace
+                    && !player.canEntityBeSeen(event.entity))
+            {
+                //Temp disable render range
+                RenderLiving.NAME_TAG_RANGE = 1;
+                RenderLiving.NAME_TAG_RANGE_SNEAK = 1;
+            }
         }
     }
 
@@ -51,6 +64,7 @@ public class ClientProxy extends CommonProxy
     {
         if (ComeCloser.doRayTrace)
         {
+            //Reset
             RenderLiving.NAME_TAG_RANGE = ComeCloser.standingRange;
             RenderLiving.NAME_TAG_RANGE_SNEAK = ComeCloser.sneakRange;
         }
