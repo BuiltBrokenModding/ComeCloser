@@ -11,6 +11,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
@@ -43,8 +44,12 @@ public class ComeCloser
 
     static FMLEventChannel packetHandler;
 
+    /** Tag distance standing */
     public static float standingRange = 64f;
+    /** Tag distance sneaking */
     public static float sneakRange = 32f;
+    /** Do ray trace for tag rendering */
+    public static boolean doRayTrace = true;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -54,14 +59,15 @@ public class ComeCloser
         // // Config ////
         if (event.getSide() == Side.SERVER)
         {
-            Configuration config = new Configuration(new File(cpw.mods.fml.common.Loader.instance().getConfigDir(), "ComeCloser.cfg"));
+            Configuration config = new Configuration(new File(event.getModConfigurationDirectory(), "ComeCloser.cfg"));
             config.load();
-            sneakRange = config.get(Configuration.CATEGORY_GENERAL, "SneakRange", 32).getInt();
-            standingRange = config.get(Configuration.CATEGORY_GENERAL, "NormalRange", 64).getInt();
+            sneakRange = config.getInt("SneakRange", Configuration.CATEGORY_GENERAL, 32, 0, 300, "Distance in meters (blocks) to render name tag while sneaking");
+            standingRange = config.getInt("NormalRange", Configuration.CATEGORY_GENERAL, 64, 0, 300, "Distance in meters (blocks) to render name tag");
             config.save();
         }
         this.loadModMeta();
         FMLCommonHandler.instance().bus().register(proxy);
+        MinecraftForge.EVENT_BUS.register(proxy);
     }
 
     public void loadModMeta()

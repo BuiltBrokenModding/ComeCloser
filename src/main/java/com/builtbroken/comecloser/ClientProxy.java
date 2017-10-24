@@ -3,31 +3,56 @@ package com.builtbroken.comecloser;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent;
 import io.netty.buffer.ByteBuf;
-
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderLiving;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.client.event.RenderLivingEvent;
 
 public class ClientProxy extends CommonProxy
 {
-	@Override
-	public void changeTagRange(float max, float min)
-	{
-		RenderLiving.NAME_TAG_RANGE = max;
-		RenderLiving.NAME_TAG_RANGE_SNEAK = min;
-	}
+    @Override
+    public void changeTagRange(float max, float min)
+    {
+        RenderLiving.NAME_TAG_RANGE = ComeCloser.standingRange = max;
+        RenderLiving.NAME_TAG_RANGE_SNEAK = ComeCloser.sneakRange = min;
+    }
 
-	@SubscribeEvent
-	public void onPacketData(FMLNetworkEvent.ClientCustomPacketEvent event)
-	{
-		ByteBuf buf = event.packet.payload();
-		float f = buf.readFloat();
-		float f2 = buf.readFloat();
-		this.changeTagRange(f2, f);
-	}
+    @SubscribeEvent
+    public void onPacketData(FMLNetworkEvent.ClientCustomPacketEvent event)
+    {
+        ByteBuf buf = event.packet.payload();
+        float f = buf.readFloat();
+        float f2 = buf.readFloat();
 
-	@SubscribeEvent
-	public void connectionClosed(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
-	{
-		ComeCloser.sneakRange = 32;
-		ComeCloser.standingRange = 64;
-	}
+        ComeCloser.doRayTrace = buf.readBoolean();
+        this.changeTagRange(f2, f);
+    }
+
+    @SubscribeEvent
+    public void connectionClosed(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
+    {
+        ComeCloser.sneakRange = 32;
+        ComeCloser.standingRange = 64;
+        ComeCloser.doRayTrace = false;
+    }
+
+    @SubscribeEvent
+    public void onRenderSpecialPre(RenderLivingEvent.Specials.Pre event)
+    {
+        if (ComeCloser.doRayTrace && event.entity instanceof EntityPlayer && !Minecraft.getMinecraft().thePlayer.canEntityBeSeen(event.entity))
+        {
+            RenderLiving.NAME_TAG_RANGE = 1;
+            RenderLiving.NAME_TAG_RANGE_SNEAK = 1;
+        }
+    }
+
+    @SubscribeEvent
+    public void onRenderSpecialPost(RenderLivingEvent.Specials.Pre event)
+    {
+        if (ComeCloser.doRayTrace)
+        {
+            RenderLiving.NAME_TAG_RANGE = ComeCloser.standingRange;
+            RenderLiving.NAME_TAG_RANGE_SNEAK = ComeCloser.sneakRange;
+        }
+    }
 }
