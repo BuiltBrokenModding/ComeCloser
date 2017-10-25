@@ -1,5 +1,6 @@
 package com.builtbroken.comecloser;
 
+import com.builtbroken.comecloser.network.PacketManager;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -7,12 +8,13 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.FMLEventChannel;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.Arrays;
@@ -27,14 +29,12 @@ public class ComeCloser
     public static final String BUILD_VERSION = "@BUILD@";
 
     // @Mod
-    public static final String MOD_ID = "ComeCloser";
+    public static final String MOD_ID = "comecloser";
     public static final String MOD_NAME = "Come Closer";
     public static final String VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + REVIS_VERSION + "." + BUILD_VERSION;
 
-    public static final String CHANNEL = ComeCloser.MOD_ID;
-
     @Instance(ComeCloser.MOD_ID)
-    public static ComeCloser Instance;
+    public static ComeCloser instance;
 
     @Metadata(ComeCloser.MOD_ID)
     public static ModMetadata meta;
@@ -42,7 +42,9 @@ public class ComeCloser
     @SidedProxy(clientSide = "com.builtbroken.comecloser.ClientProxy", serverSide = "com.builtbroken.comecloser.CommonProxy")
     public static CommonProxy proxy;
 
-    static FMLEventChannel packetHandler;
+    public static PacketManager packetHandler;
+
+    public static Logger LOGGER;
 
     /** Tag distance standing */
     public static float standingRange = 64f;
@@ -51,11 +53,17 @@ public class ComeCloser
     /** Do ray trace for tag rendering */
     public static boolean doRayTrace = true;
 
+    protected void setDefaults()
+    {
+        ComeCloser.sneakRange = 32;
+        ComeCloser.standingRange = 64;
+        ComeCloser.doRayTrace = true;
+    }
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        packetHandler = NetworkRegistry.INSTANCE.newEventDrivenChannel(CHANNEL);
-        packetHandler.register(proxy);
+        LOGGER = LogManager.getLogger(MOD_ID);
         // // Config ////
         if (event.getSide() == Side.SERVER)
         {
@@ -73,12 +81,17 @@ public class ComeCloser
         MinecraftForge.EVENT_BUS.register(proxy);
     }
 
+    @EventHandler
+    public void init(FMLInitializationEvent event)
+    {
+        packetHandler = new PacketManager(MOD_ID);
+    }
+
     public void loadModMeta()
     {
         meta.modId = ComeCloser.MOD_ID;
         meta.name = ComeCloser.MOD_NAME;
-        meta.description = "Help improve PvP by changing how the player's name tag renders. " +
-                "Allows the range to be managed by the server so that name tags do not render at 64 blocks away";
+        meta.description = "Allows control name tag rendering to improve PvP gameplay.";
 
         meta.url = "www.BuildBroken.com";
 

@@ -1,42 +1,36 @@
 package com.builtbroken.comecloser;
 
+import com.builtbroken.comecloser.network.packets.PacketSyncSettings;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
 
 public class CommonProxy
 {
-    public void changeTagRange(float max, float min)
+    public void onSettingsChanged()
     {
-        ComeCloser.sneakRange = min;
-        ComeCloser.standingRange = max;
         this.sendPacket(null);
     }
 
     public void sendPacket(EntityPlayer player)
     {
-        //Build data
-        ByteBuf buf = Unpooled.buffer();
-        buf.writeFloat(ComeCloser.sneakRange);
-        buf.writeFloat(ComeCloser.standingRange);
-        buf.writeBoolean(ComeCloser.doRayTrace);
-
-        //Build packet
-        FMLProxyPacket packet = new FMLProxyPacket(buf, ComeCloser.CHANNEL);
-
         //Send packet
-        if (player instanceof EntityPlayerMP)
+        if (player != null)
         {
-            ComeCloser.packetHandler.sendTo(packet, (EntityPlayerMP) player);
+            if (player instanceof EntityPlayerMP)
+            {
+                ComeCloser.packetHandler.sendToPlayer(PacketSyncSettings.getPacket(), (EntityPlayerMP) player);
+            }
+            else
+            {
+                //Likely a fake player
+            }
         }
         else
         {
-            ComeCloser.packetHandler.sendToAll(packet);
+            ComeCloser.packetHandler.sendToAll(PacketSyncSettings.getPacket());
         }
     }
 
