@@ -53,5 +53,6 @@ public final class PacketSyncSettings extends Packet
         ComeCloser.standingRange = max;
         ComeCloser.sneakRange = min;
         ComeCloser.doRayTrace = doRay;
+        ComeCloser.proxy.onSettingsChanged();
     }
 }
