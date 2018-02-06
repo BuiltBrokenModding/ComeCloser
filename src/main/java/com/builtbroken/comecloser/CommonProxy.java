@@ -1,11 +1,10 @@
 package com.builtbroken.comecloser;
 
-import com.builtbroken.comecloser.network.packets.PacketSyncSettings;
+import com.builtbroken.comecloser.network.SyncSettings;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.NetHandlerPlayServer;
 
 public class CommonProxy
 {
@@ -16,31 +15,29 @@ public class CommonProxy
 
     public void sendPacket(EntityPlayer player)
     {
-        //Send packet
+        // Send packet
         if (player != null)
         {
             if (player instanceof EntityPlayerMP)
             {
-                ComeCloser.packetHandler.sendToPlayer(PacketSyncSettings.getPacket(), (EntityPlayerMP) player);
+                ComeCloser.network.sendTo(new SyncSettings(), (EntityPlayerMP) player);
             }
             else
             {
-                //Likely a fake player
+                // Likely a fake player
             }
         }
         else
         {
-            ComeCloser.packetHandler.sendToAll(PacketSyncSettings.getPacket());
+            ComeCloser.network.sendToAll(new SyncSettings());
         }
     }
 
     @SubscribeEvent //fired on the server
-    public void onPlayerConnectServer(FMLNetworkEvent.ServerConnectionFromClientEvent event)
+    public void onPlayerConnectServer(PlayerEvent.PlayerLoggedInEvent event)
     {
-        if (!event.isLocal)
-        {
-            //Send packet to player
-            this.sendPacket(((NetHandlerPlayServer) event.handler).playerEntity);
+        if (event.player instanceof EntityPlayerMP) {
+            this.sendPacket((EntityPlayerMP) event.player);
         }
     }
 }
