@@ -3,6 +3,7 @@ package com.builtbroken.comecloser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
@@ -16,7 +17,7 @@ public class ClientProxy extends CommonProxy
         RenderLiving.NAME_TAG_RANGE_SNEAK = ComeCloser.sneakRange;
         if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().thePlayer != null && ComeCloser.doChatMessages)
         {
-            Minecraft.getMinecraft().thePlayer.sendChatMessage("ComeCloser>>TagRange: " + ComeCloser.sneakRange + " <-> " + ComeCloser.standingRange);
+            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString("ComeCloser>>TagRange: " + ComeCloser.sneakRange + " <-> " + ComeCloser.standingRange));
         }
     }
 
