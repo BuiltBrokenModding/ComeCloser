@@ -1,20 +1,16 @@
 package com.builtbroken.comecloser;
 
 import com.builtbroken.comecloser.network.SyncSettings;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.Metadata;
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import cpw.mods.fml.relauncher.Side;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ModMetadata;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,10 +32,10 @@ public class ComeCloser
     public static final String MOD_NAME = "Come Closer";
     public static final String VERSION = MC_VERSION + "." + MAJOR_VERSION + "." + MINOR_VERSION + "." + REVIS_VERSION + "." + BUILD_VERSION;
 
-    @Instance(ComeCloser.MOD_ID)
+    @Mod.Instance(ComeCloser.MOD_ID)
     public static ComeCloser instance;
 
-    @Metadata(ComeCloser.MOD_ID)
+    @Mod.Metadata(ComeCloser.MOD_ID)
     public static ModMetadata meta;
 
     @SidedProxy(clientSide = "com.builtbroken.comecloser.ClientProxy", serverSide = "com.builtbroken.comecloser.CommonProxy")
@@ -65,7 +61,7 @@ public class ComeCloser
         ComeCloser.doRayTrace = true;
     }
 
-    @EventHandler
+    @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         int packetDiscriminator = 4;
@@ -84,13 +80,12 @@ public class ComeCloser
             config.save();
         }
         this.loadModMeta();
-        FMLCommonHandler.instance().bus().register(proxy);
         MinecraftForge.EVENT_BUS.register(proxy);
         network = NetworkRegistry.INSTANCE.newSimpleChannel("ComeCloserChannel");
         network.registerMessage(SyncSettings.Handler.class, SyncSettings.class, packetDiscriminator++, Side.CLIENT);
     }
 
-    @EventHandler
+    @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {}
 
