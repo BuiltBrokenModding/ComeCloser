@@ -14,9 +14,9 @@ public class ClientProxy extends CommonProxy
     {
         RenderLiving.NAME_TAG_RANGE = ComeCloser.standingRange;
         RenderLiving.NAME_TAG_RANGE_SNEAK = ComeCloser.sneakRange;
-        if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().player != null && ComeCloser.doChatMessages)
+        if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().thePlayer != null && ComeCloser.doChatMessages)
         {
-            Minecraft.getMinecraft().player.sendChatMessage("ComeCloser>>TagRange: " + ComeCloser.sneakRange + " <-> " + ComeCloser.standingRange);
+            Minecraft.getMinecraft().thePlayer.sendChatMessage("ComeCloser>>TagRange: " + ComeCloser.sneakRange + " <-> " + ComeCloser.standingRange);
         }
     }
 
@@ -29,7 +29,7 @@ public class ClientProxy extends CommonProxy
     @SubscribeEvent
     public void onRenderSpecialPre(RenderLivingEvent.Specials.Pre event)
     {
-        EntityPlayer player = Minecraft.getMinecraft().player;
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if (ComeCloser.doRayTrace && event.getEntity() instanceof EntityPlayer)
         {
             //Get distance to player squared
