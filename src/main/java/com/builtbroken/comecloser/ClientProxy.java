@@ -3,7 +3,7 @@ package com.builtbroken.comecloser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
@@ -15,9 +15,9 @@ public class ClientProxy extends CommonProxy
     {
         RenderLiving.NAME_TAG_RANGE = ComeCloser.standingRange;
         RenderLiving.NAME_TAG_RANGE_SNEAK = ComeCloser.sneakRange;
-        if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().player != null && ComeCloser.doChatMessages)
+        if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().thePlayer != null && ComeCloser.doChatMessages)
         {
-            Minecraft.getMinecraft().player.addChatComponentMessage(new TextComponentString("ComeCloser>>TagRange: " + ComeCloser.sneakRange + " <-> " + ComeCloser.standingRange));
+            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("ComeCloser>>TagRange: " + ComeCloser.sneakRange + " <-> " + ComeCloser.standingRange));
         }
     }
 
@@ -30,16 +30,16 @@ public class ClientProxy extends CommonProxy
     @SubscribeEvent
     public void onRenderSpecialPre(RenderLivingEvent.Specials.Pre event)
     {
-        EntityPlayer player = Minecraft.getMinecraft().player;
-        if (ComeCloser.doRayTrace && event.getEntity() instanceof EntityPlayer)
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        if (ComeCloser.doRayTrace && event.entity instanceof EntityPlayer)
         {
             //Get distance to player squared
-            double distanceSQ = player.getDistanceSqToEntity(event.getEntity());
+            double distanceSQ = player.getDistanceSqToEntity(event.entity);
 
             //Only do ray trace if within range
             if (distanceSQ <= (ComeCloser.standingRange * ComeCloser.standingRange)
                     //Do ray trace
-                    && !player.canEntityBeSeen(event.getEntity()))
+                    && !player.canEntityBeSeen(event.entity))
             {
                 //Temp disable render range
                 RenderLiving.NAME_TAG_RANGE = 1;
