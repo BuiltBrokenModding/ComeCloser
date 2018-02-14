@@ -17,7 +17,7 @@ public class ClientProxy extends CommonProxy
         RenderLiving.NAME_TAG_RANGE_SNEAK = ComeCloser.sneakRange;
         if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().player != null && ComeCloser.doChatMessages)
         {
-            Minecraft.getMinecraft().player.addChatComponentMessage(new TextComponentString("ComeCloser>>TagRange: " + ComeCloser.sneakRange + " <-> " + ComeCloser.standingRange));
+            Minecraft.getMinecraft().player.sendMessage(new TextComponentString("ComeCloser>>TagRange: " + ComeCloser.sneakRange + " <-> " + ComeCloser.standingRange));
         }
     }
 
