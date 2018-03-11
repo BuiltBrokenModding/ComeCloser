@@ -22,8 +22,7 @@ import java.io.File;
 import java.util.Arrays;
 
 @Mod(modid = ComeCloser.MOD_ID, name = ComeCloser.MOD_NAME, version = ComeCloser.VERSION, useMetadata = true)
-public class ComeCloser
-{
+public class ComeCloser {
     // @Mod Prerequisites
     public static final String MC_VERSION = "@MC@";
     public static final String MAJOR_VERSION = "@MAJOR@";
@@ -49,40 +48,44 @@ public class ComeCloser
 
     public static SimpleNetworkWrapper network;
 
-    /** Tag distance standing */
+    /**
+     * Tag distance standing
+     */
     public static float standingRange = 64f;
-    /** Tag distance sneaking */
+    /**
+     * Tag distance sneaking
+     */
     public static float sneakRange = 32f;
-    /** Do ray trace for tag rendering */
+    /**
+     * Do ray trace for tag rendering
+     */
     public static boolean doRayTrace = true;
-    /** Do chat messages when syncing chat messages */
+    /**
+     * Do chat messages when syncing chat messages
+     */
     public static boolean doChatMessages = true;
 
-    protected void setDefaults()
-    {
+    protected void setDefaults() {
         ComeCloser.sneakRange = 32;
         ComeCloser.standingRange = 64;
         ComeCloser.doRayTrace = true;
     }
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event) {
         int packetDiscriminator = 4;
         LOGGER = LogManager.getLogger(MOD_ID);
-        // // Config ////
-        if (event.getSide() == Side.SERVER)
-        {
-            Configuration config = new Configuration(new File(event.getModConfigurationDirectory(), "ComeCloser.cfg"));
-            config.load();
-            sneakRange = config.getInt("SneakRange", Configuration.CATEGORY_GENERAL, 32, 0, 300, "Distance in meters (blocks) to render name tag while sneaking");
-            standingRange = config.getInt("NormalRange", Configuration.CATEGORY_GENERAL, 64, 0, 300, "Distance in meters (blocks) to render name tag");
-            doRayTrace = config.getBoolean("DoLineOfSight", Configuration.CATEGORY_GENERAL, doRayTrace, "Enabled line of sight check before rendering name tags to allow players to hide behind walls. " +
-                    "(line of sight -> ray trace from player to player eye line)");
-            doChatMessages = config.getBoolean("DoChatMessages", Configuration.CATEGORY_GENERAL, doChatMessages, "Disables chat messages for syncing settings between server and client");
 
-            config.save();
-        }
+        // // Config ////
+        Configuration config = new Configuration(new File(event.getModConfigurationDirectory(), "ComeCloser.cfg"));
+        config.load();
+        sneakRange = config.getInt("SneakRange", Configuration.CATEGORY_GENERAL, 32, 0, 300, "Distance in meters (blocks) to render name tag while sneaking");
+        standingRange = config.getInt("NormalRange", Configuration.CATEGORY_GENERAL, 64, 0, 300, "Distance in meters (blocks) to render name tag");
+        doRayTrace = config.getBoolean("DoLineOfSight", Configuration.CATEGORY_GENERAL, doRayTrace, "Enabled line of sight check before rendering name tags to allow players to hide behind walls. " +
+                "(line of sight -> ray trace from player to player eye line)");
+        doChatMessages = config.getBoolean("DoChatMessages", Configuration.CATEGORY_GENERAL, doChatMessages, "Disables chat messages for syncing settings between server and client");
+        config.save();
+
         this.loadModMeta();
         FMLCommonHandler.instance().bus().register(proxy);
         MinecraftForge.EVENT_BUS.register(proxy);
@@ -91,11 +94,10 @@ public class ComeCloser
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event)
-    {}
+    public void init(FMLInitializationEvent event) {
+    }
 
-    public void loadModMeta()
-    {
+    public void loadModMeta() {
         meta.modId = ComeCloser.MOD_ID;
         meta.name = ComeCloser.MOD_NAME;
         meta.description = "Allows control over name tag rendering to improve PvP gameplay.";
